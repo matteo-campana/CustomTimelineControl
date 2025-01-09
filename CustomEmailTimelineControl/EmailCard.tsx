@@ -11,21 +11,36 @@ const resolveAsset = (asset: string) => {
 };
 
 const useStyles = makeStyles({
+  main: {
+    gap: '36px',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'wrap',
+  },
+
+  title: { margin: '0 0 12px' },
+
+  description: { margin: '0 0 12px' },
+
   card: {
     width: '480px',
     maxWidth: '100%',
     height: 'fit-content',
   },
+
   caption: {
     color: tokens.colorNeutralForeground3,
   },
+
   logo: {
     borderRadius: '4px',
     width: '48px',
     height: '48px',
   },
+
   text: { margin: '0' },
 });
+
 
 export const EmailCard = ({ className, ...props }: CardProps) => {
   const styles = useStyles();
