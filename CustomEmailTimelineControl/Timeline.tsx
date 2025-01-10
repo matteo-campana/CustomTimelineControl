@@ -5,6 +5,54 @@ import { EmailCard, IEmailCardProps } from "./EmailCard";
 interface ITimelineProps {
     initialEmails?: IEmailCardProps[];
 }
+import {
+    makeStyles,
+    Button,
+    Caption1,
+    Body1,
+    Subtitle1,
+} from "@fluentui/react-components";
+import {
+    MoreHorizontal20Regular,
+    Open16Regular,
+    Share16Regular,
+} from "@fluentui/react-icons";
+import {
+    Card,
+    CardHeader,
+    CardFooter,
+    CardPreview,
+    CardProps,
+} from "@fluentui/react-components";
+
+const resolveAsset = (asset: string) => {
+    const ASSET_URL =
+        "https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-card/stories/src/assets/";
+
+    return `${ASSET_URL}${asset}`;
+};
+
+const useStyles = makeStyles({
+    main: {
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        columnGap: "16px",
+        rowGap: "36px",
+    },
+
+    title: { margin: "0 0 12px" },
+
+    description: { margin: "0 0 12px" },
+
+    card: {
+        width: "400px",
+        maxWidth: "100%",
+        height: "fit-content",
+    },
+
+    text: { margin: "0" },
+});
 
 const generateFakeEmails = (): IEmailCardProps[] => {
     return [
@@ -30,31 +78,27 @@ const generateFakeEmails = (): IEmailCardProps[] => {
     ];
 };
 
-export class Timeline extends React.Component<ITimelineProps, { emails: IEmailCardProps[] }> {
-    constructor(props: ITimelineProps) {
-        super(props);
-        this.state = {
-            //   emails: props.initialEmails || generateFakeEmails(),
-            emails: generateFakeEmails(),
-        };
-    }
+const Timeline: React.FC<ITimelineProps> = (props) => {
+    // const [emails, setEmails] = React.useState<IEmailCardProps[]>(props.initialEmails || generateFakeEmails());
+    const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateFakeEmails());
+    const styles = useStyles();
 
-    public render(): React.ReactNode {
-        return (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                {this.state.emails.map((email, index) => (
-                    <EmailCard
-                        key={index}
-                        from={email.from}
-                        sent={email.sent}
-                        to={email.to}
-                        subject={email.subject}
-                        content={email.content}
-                        createdOn={email.createdOn}
-                        modifiedOn={email.modifiedOn}
-                    />
-                ))}
-            </div>
-        );
-    }
-}
+    return (
+        <div className={styles.main}>
+            {emails.map((email, index) => (
+                <EmailCard
+                    key={index}
+                    from={email.from}
+                    sent={email.sent}
+                    to={email.to}
+                    subject={email.subject}
+                    content={email.content}
+                    createdOn={email.createdOn}
+                    modifiedOn={email.modifiedOn}
+                />
+            ))}
+        </div>
+    );
+};
+
+export { Timeline };

@@ -4,7 +4,16 @@ import {
     Card,
     CardHeader,
     CardFooter,
+    makeStyles,
+    tokens,
+    Button,
+    Caption1,
+    Subtitle1,
+    Body1,
+    mergeClasses,
 } from "@fluentui/react-components";
+
+import { MoreHorizontal20Regular } from "@fluentui/react-icons";
 
 const resolveAsset = (asset: string) => {
     const ASSET_URL =
@@ -12,6 +21,37 @@ const resolveAsset = (asset: string) => {
 
     return `${ASSET_URL}${asset}`;
 };
+
+const useStyles = makeStyles({
+    main: {
+        gap: "36px",
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "wrap",
+    },
+
+    title: { margin: "0 0 12px" },
+
+    description: { margin: "0 0 12px" },
+
+    card: {
+        width: "480px",
+        maxWidth: "100%",
+        height: "fit-content",
+    },
+
+    caption: {
+        color: tokens.colorNeutralForeground3,
+    },
+
+    logo: {
+        borderRadius: "4px",
+        width: "48px",
+        height: "48px",
+    },
+
+    text: { margin: "0" },
+});
 
 export interface IEmailCardProps {
     from: string;
@@ -23,26 +63,52 @@ export interface IEmailCardProps {
     modifiedOn: Date;
 }
 
-export class EmailCard extends React.Component<IEmailCardProps> {
-    public render(): React.ReactNode {
-        return (
-            <Card>
-                <CardHeader>
-                    <Text>From: {this.props.from}</Text>
-                    <Text>To: {this.props.to}</Text>
-                </CardHeader>
+export const EmailCard: React.FC<IEmailCardProps> = (props) => {
+    const styles = useStyles();
+    const onClick = React.useCallback(() => console.log("Interactive!"), []);
 
-                <Text>Sent: {this.props.sent}</Text>
-                <Text>Subject: {this.props.subject}</Text>
-                <Text>Created On: {this.props.createdOn.toLocaleString()}</Text>
-                <Text>Modified On: {this.props.modifiedOn.toLocaleString()}</Text>
+    return (
+        <Card
+            {...props}
+            className={styles.card}
+            onClick={onClick}
+
+        >
+            <CardHeader
+                image={
+                    <img
+                        src={resolveAsset("pptx.png")}
+                        width="32px"
+                        height="32px"
+                        alt="Microsoft PowerPoint logo"
+                    />
+                }
+                header={
+                    <Body1>
+                        <Text>From: {props.from}</Text><br/>
+                        <Text>To: {props.to}</Text>
+                    </Body1>
+                }
+                description={<Caption1> <Text>Sent: {props.sent}</Text>
+                    <Text>Subject: {props.subject}</Text><br/>
+                    <Text>Created On: {props.createdOn.toLocaleString()}</Text><br/>
+                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text></Caption1>}
+                action={
+                    <Button
+                        appearance="transparent"
+                        icon={<MoreHorizontal20Regular />}
+                        aria-label="More options"
+                    />
+                }
+            />
+
+            <p className={styles.text}>
                 <Text>Content:</Text>
-                <div dangerouslySetInnerHTML={{ __html: this.props.content }} />
-
-                <CardFooter>
-                    {/* Add any footer content if needed */}
-                </CardFooter>
-            </Card>
-        )
-    }
-}
+                <div dangerouslySetInnerHTML={{ __html: props.content }} />
+            </p>
+            <CardFooter>
+                {/* Add any footer content if needed */}
+            </CardFooter>
+        </Card>
+    );
+};
