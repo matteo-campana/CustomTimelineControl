@@ -11,6 +11,7 @@ import {
     Subtitle1,
     Body1,
     mergeClasses,
+    Avatar,
 } from "@fluentui/react-components";
 
 import { MoreHorizontal20Regular } from "@fluentui/react-icons";
@@ -30,12 +31,20 @@ const useStyles = makeStyles({
         flexWrap: "wrap",
     },
 
-    title: { margin: "0 0 12px" },
+    title: {
+        margin: "0 0 12px", display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+    },
 
-    description: { margin: "0 0 12px" },
+    description: {
+        margin: "0 0 12px", display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+    },
 
     card: {
-        width: "480px",
+        // width: "480px",
         maxWidth: "100%",
         height: "fit-content",
     },
@@ -76,17 +85,18 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
     return (
         <Card
             {...props}
-            className={styles.card}
+            className={mergeClasses(styles.card)}
             onClick={onClick}
-
         >
             <CardHeader
                 image={
-                    <img
-                        src={resolveAsset("pptx.png")}
-                        width="32px"
-                        height="32px"
-                        alt="Microsoft PowerPoint logo"
+                    <Avatar
+                        aria-label="Guest"
+                        name={props.from}
+                        size={48}
+                        image={{
+                            src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
+                        }}
                     />
                 }
                 header={
@@ -110,14 +120,14 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 }
             />
 
-            <p className={styles.text}>
-                <Text>Content:</Text>
-                <div dangerouslySetInnerHTML={{ __html: props.content }} />
-            </p>
+
+            <Text>Content:</Text>
+            <div dangerouslySetInnerHTML={{ __html: props.content }} />
+
             <CardFooter>
                 <Caption1 className={styles.footerContent}>
-                    <Text>Created On: {props.createdOn.toLocaleString()}</Text>
-                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
+                    <Subtitle1>Created On: {props.createdOn.toLocaleString()}</Subtitle1>
+                    <Subtitle1>Modified On: {props.modifiedOn.toLocaleString()}</Subtitle1>
                 </Caption1>
             </CardFooter>
         </Card>
