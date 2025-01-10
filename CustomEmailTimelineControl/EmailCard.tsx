@@ -6,19 +6,14 @@ import {
     CardFooter,
     Button,
     Caption1,
-    Subtitle1,
     Body1,
     Avatar,
+    makeStyles,
+    tokens,
 } from "@fluentui/react-components";
 
 import { MoreHorizontal20Regular } from "@fluentui/react-icons";
 
-const resolveAsset = (asset: string) => {
-    const ASSET_URL =
-        "https://raw.githubusercontent.com/microsoft/fluentui/master/packages/react-components/react-card/stories/src/assets/";
-
-    return `${ASSET_URL}${asset}`;
-};
 
 export interface IEmailCardProps {
     from: string;
@@ -30,13 +25,31 @@ export interface IEmailCardProps {
     modifiedOn: Date;
 }
 
+const useStyles = makeStyles({
+    header: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-start",
+    },
+    footer: {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "flex-end",
+    },
+    card: {
+        display: "flex",
+        flexDirection: "column",
+    },
+});
+
 export const EmailCard: React.FC<IEmailCardProps> = (props) => {
     const onClick = React.useCallback(() => console.log("Interactive!"), []);
-
+    const styles = useStyles();
     return (
         <Card
             {...props}
             onClick={onClick}
+            className={styles.card}
         >
             <CardHeader
                 image={
@@ -51,17 +64,15 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                     />
                 }
                 header={
-                    <Body1>
+                    <Body1 className={styles.header}>
                         <Text>From: {props.from}</Text>
                         <Text>To: {props.to}</Text>
+                        <Text>Sent: {props.sent}</Text>
                     </Body1>
                 }
-                description={
-                    <Caption1>
-                        <Text>Sent: {props.sent}</Text>
-                        <Text>Subject: {props.subject}</Text>
-                    </Caption1>
-                }
+                // description={
+
+                // }
                 action={
                     <Button
                         appearance="transparent"
@@ -71,15 +82,19 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 }
             />
 
-
-            <Text>Content:</Text>
-            <div dangerouslySetInnerHTML={{ __html: props.content }} />
-
-            <CardFooter>
+            <div style={{ marginBottom: "8px" }}>
                 <Caption1>
-                    <Subtitle1>Created On: {props.createdOn.toLocaleString()}</Subtitle1>
-                    <Subtitle1>Modified On: {props.modifiedOn.toLocaleString()}</Subtitle1>
+                    <Text>Subject: {props.subject}</Text>
                 </Caption1>
+                <Text>Content:</Text>
+                <div dangerouslySetInnerHTML={{ __html: props.content }} />
+            </div>
+
+            <CardFooter >
+                <Body1 className={styles.footer}>
+                    <Text>Created On: {props.createdOn.toLocaleString()}</Text>
+                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
+                </Body1>
             </CardFooter>
         </Card>
     );
