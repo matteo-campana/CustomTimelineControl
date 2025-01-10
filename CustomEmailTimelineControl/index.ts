@@ -1,6 +1,7 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 // import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
-import { Timeline } from "./Timeline";
+import { Timeline } from './Timeline';
+import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -40,7 +41,11 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         //     HelloWorld, props
         // );
 
-        return React.createElement(Timeline, { initialEmails: [] });
+
+        return React.createElement(FluentProvider, { theme: webLightTheme },
+            React.createElement(Timeline, { initialEmails: [] })
+        );
+
     }
 
     /**
