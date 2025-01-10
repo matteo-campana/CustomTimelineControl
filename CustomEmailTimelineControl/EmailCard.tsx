@@ -23,6 +23,7 @@ export interface IEmailCardProps {
     content: string;
     createdOn: Date;
     modifiedOn: Date;
+    isVisualized: boolean;
 }
 
 const useStyles = makeStyles({
