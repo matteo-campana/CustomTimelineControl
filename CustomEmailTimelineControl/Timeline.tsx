@@ -12,12 +12,13 @@ interface ITimelineProps {
 
 const useStyles = makeStyles({
     main: {
+        padding: "8",
         display: "flex",
         flexDirection: "column",
         rowGap: "8px",
         flex: "1 1 auto",
         overflowY: "auto",
-        height: "100%", // Adjust height to take full parent height
+        height: "100%",
     },
 });
 
@@ -123,7 +124,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                     createdOn={email.createdOn}
                     modifiedOn={email.modifiedOn}
                     isVisualized={email.isVisualized}
-                    style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
+                    //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
                 />
             ))}
         </div>

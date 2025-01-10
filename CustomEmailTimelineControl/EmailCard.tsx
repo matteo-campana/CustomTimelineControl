@@ -35,8 +35,10 @@ const useStyles = makeStyles({
     },
     footer: {
         display: "flex",
-        flexDirection: "column",
-        justifyContent: "flex-end",
+        flexDirection: "row",
+        justifyContent: "right",
+        alignItems: "flex-end",
+        gap: "4px",
     },
     card: {
         flex: "1 1 auto",
@@ -99,11 +101,9 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 <div dangerouslySetInnerHTML={{ __html: props.content }} />
             </div>
 
-            <CardFooter >
-                <Body1 className={styles.footer}>
-                    <Text>Created On: {props.createdOn.toLocaleString()}</Text>
-                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
-                </Body1>
+            <CardFooter className={styles.footer} >
+                <Text>Created On: {props.createdOn.toLocaleString()}</Text>
+                <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
             </CardFooter>
         </Card>
     );
