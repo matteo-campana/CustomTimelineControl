@@ -51,6 +51,12 @@ const useStyles = makeStyles({
     },
 
     text: { margin: "0" },
+
+    footerContent: {
+        display: "flex",
+        flexDirection: "column",
+        gap: "4px",
+    },
 });
 
 export interface IEmailCardProps {
@@ -85,14 +91,16 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 }
                 header={
                     <Body1>
-                        <Text>From: {props.from}</Text><br/>
+                        <Text>From: {props.from}</Text>
                         <Text>To: {props.to}</Text>
                     </Body1>
                 }
-                description={<Caption1> <Text>Sent: {props.sent}</Text>
-                    <Text>Subject: {props.subject}</Text><br/>
-                    <Text>Created On: {props.createdOn.toLocaleString()}</Text><br/>
-                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text></Caption1>}
+                description={
+                    <Caption1>
+                        <Text>Sent: {props.sent}</Text>
+                        <Text>Subject: {props.subject}</Text>
+                    </Caption1>
+                }
                 action={
                     <Button
                         appearance="transparent"
@@ -107,7 +115,10 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 <div dangerouslySetInnerHTML={{ __html: props.content }} />
             </p>
             <CardFooter>
-                {/* Add any footer content if needed */}
+                <Caption1 className={styles.footerContent}>
+                    <Text>Created On: {props.createdOn.toLocaleString()}</Text>
+                    <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
+                </Caption1>
             </CardFooter>
         </Card>
     );
