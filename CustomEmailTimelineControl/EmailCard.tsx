@@ -38,9 +38,11 @@ const useStyles = makeStyles({
         justifyContent: "flex-end",
     },
     card: {
+        flex: "1 1 auto",
         display: "flex",
         flexDirection: "column",
-        borderLeft: `4px solid`,
+        width: "100%",
+        height: "fit-content",
     },
 });
 
@@ -62,9 +64,9 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         size={48}
                         shape="circular"
                         initials={props.from.split('@')[0].split('.').map(name => name[0].toUpperCase()).join('')}
-                        // image={{
-                        //     src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
-                        // }}
+                    // image={{
+                    //     src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
+                    // }}
                     />
                 }
                 header={

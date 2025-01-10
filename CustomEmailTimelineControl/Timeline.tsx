@@ -12,10 +12,11 @@ interface ITimelineProps {
 const useStyles = makeStyles({
     main: {
         display: "flex",
-        flexWrap: "wrap",
         flexDirection: "column",
-        columnGap: "16px",
         rowGap: "8px",
+        flex: "1 1 auto",
+        overflowY: "auto",
+        height: "100%", // Adjust height to take full parent height
     },
 });
 
