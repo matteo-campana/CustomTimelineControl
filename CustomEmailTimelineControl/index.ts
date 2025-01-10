@@ -1,6 +1,6 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 // import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
-import { EmailCardList } from "./EmailCardList";
+import { Timeline } from "./Timeline";
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -40,7 +40,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         //     HelloWorld, props
         // );
 
-        return React.createElement(EmailCardList);
+        return React.createElement(Timeline, { initialEmails: [] });
     }
 
     /**
