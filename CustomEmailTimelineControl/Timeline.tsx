@@ -29,7 +29,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>Don't forget about our meeting tomorrow at 10 AM.</p>",
             createdOn: new Date("2023-09-30T09:00:00"),
             modifiedOn: new Date("2023-09-30T09:30:00"),
-            isVisualized: true,
+            isVisualized: false,
         },
         {
             from: "jane.doe@example.com",
@@ -39,7 +39,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>Got it! See you then.</p>",
             createdOn: new Date("2023-09-30T10:00:00"),
             modifiedOn: new Date("2023-09-30T10:15:00"),
-            isVisualized: true,
+            isVisualized: false,
         },
         {
             from: "alice.smith@example.com",
@@ -49,7 +49,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>The project is on track for completion by the end of the month.</p>",
             createdOn: new Date("2023-10-01T08:00:00"),
             modifiedOn: new Date("2023-10-01T08:30:00"),
-            isVisualized: false,
+            isVisualized: true,
         },
         {
             from: "bob.jones@example.com",
@@ -59,7 +59,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>Thanks for the update. Let's discuss in our next meeting.</p>",
             createdOn: new Date("2023-10-01T09:00:00"),
             modifiedOn: new Date("2023-10-01T09:15:00"),
-            isVisualized: false,
+            isVisualized: true,
         },
         {
             from: "carol.white@example.com",
@@ -89,7 +89,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>Please find the weekly report attached.</p>",
             createdOn: new Date("2023-10-03T06:00:00"),
             modifiedOn: new Date("2023-10-03T06:30:00"),
-            isVisualized: false,
+            isVisualized: true,
         },
         {
             from: "frank.blue@example.com",
@@ -99,7 +99,7 @@ const generateFakeEmails = (): IEmailCardProps[] => {
             content: "<p>Received, thank you!</p>",
             createdOn: new Date("2023-10-03T07:00:00"),
             modifiedOn: new Date("2023-10-03T07:15:00"),
-            isVisualized: false,
+            isVisualized: true,
         },
     ];
 };

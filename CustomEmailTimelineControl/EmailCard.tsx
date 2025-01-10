@@ -40,6 +40,7 @@ const useStyles = makeStyles({
     card: {
         display: "flex",
         flexDirection: "column",
+        borderLeft: `4px solid`,
     },
 });
 
@@ -51,6 +52,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
             {...props}
             onClick={onClick}
             className={styles.card}
+            style={{ borderLeftColor: !props.isVisualized ? tokens.colorBrandBackground : tokens.colorNeutralBackground1, borderLeftWidth: '4px', borderLeftStyle: 'solid' }}
         >
             <CardHeader
                 image={
