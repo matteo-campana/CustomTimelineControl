@@ -1,7 +1,8 @@
 import * as React from "react";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import {
-    makeStyles
+    makeStyles,
+    tokens
 } from "@fluentui/react-components";
 
 // Define the ITimelineProps interface
@@ -106,7 +107,6 @@ const generateFakeEmails = (): IEmailCardProps[] => {
 };
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
-    // const [emails, setEmails] = React.useState<IEmailCardProps[]>(props.initialEmails || generateFakeEmails());
     const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateFakeEmails());
     const styles = useStyles();
 
@@ -123,6 +123,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                     createdOn={email.createdOn}
                     modifiedOn={email.modifiedOn}
                     isVisualized={email.isVisualized}
+                    style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
                 />
             ))}
         </div>

@@ -24,6 +24,7 @@ export interface IEmailCardProps {
     createdOn: Date;
     modifiedOn: Date;
     isVisualized: boolean;
+    style?: React.CSSProperties; // Add style prop
 }
 
 const useStyles = makeStyles({
@@ -54,7 +55,12 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
             {...props}
             onClick={onClick}
             className={styles.card}
-            style={{ borderLeftColor: !props.isVisualized ? tokens.colorBrandBackground : tokens.colorNeutralBackground1, borderLeftWidth: '4px', borderLeftStyle: 'solid' }}
+            style={{
+                ...props.style, // Apply custom styles
+                borderLeftColor: !props.isVisualized ? tokens.colorBrandBackground : tokens.colorNeutralBackground1,
+                borderLeftWidth: '4px',
+                borderLeftStyle: 'solid'
+            }}
         >
             <CardHeader
                 image={
@@ -64,9 +70,6 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         size={48}
                         shape="circular"
                         initials={props.from.split('@')[0].split('.').map(name => name[0].toUpperCase()).join('')}
-                    // image={{
-                    //     src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
-                    // }}
                     />
                 }
                 header={
