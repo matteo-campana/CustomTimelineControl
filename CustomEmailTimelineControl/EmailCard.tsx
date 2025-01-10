@@ -57,13 +57,14 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
             <CardHeader
                 image={
                     <Avatar
-                        aria-label="Guest"
-                        name={props.from}
+                        aria-label="avatar"
+                        name={props.from.toUpperCase()}
                         size={48}
                         shape="circular"
-                        image={{
-                            src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
-                        }}
+                        initials={props.from.split('@')[0].split('.').map(name => name[0].toUpperCase()).join('')}
+                        // image={{
+                        //     src: "https://fabricweb.azureedge.net/fabric-website/assets/images/avatar/KatriAthokas.jpg",
+                        // }}
                     />
                 }
                 header={
