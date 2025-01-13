@@ -1,7 +1,7 @@
 {
-  "name": "pcf-project",
+  "name": "custom-email-timeline-control",
   "version": "1.0.0",
-  "description": "Project containing your PowerApps Component Framework (PCF) control.",
+  "description": "Custom Email Timeline Control for PowerApps Component Framework (PCF)",
   "scripts": {
     "build": "pcf-scripts build",
     "clean": "pcf-scripts clean",
@@ -10,7 +10,8 @@
     "rebuild": "pcf-scripts rebuild",
     "start": "pcf-scripts start",
     "start:watch": "pcf-scripts start watch",
-    "refreshTypes": "pcf-scripts refreshTypes"
+    "refreshTypes": "pcf-scripts refreshTypes",
+    "build:prod": "npm run build -- --buildMode production"
   },
   "dependencies": {
     "react": "16.14.0",
