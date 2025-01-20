@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import {
@@ -5,9 +6,11 @@ import {
     tokens
 } from "@fluentui/react-components";
 import { IInputs } from "./generated/ManifestTypes";
+// import sampleEmails from "./sample_email.json";
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
+    emailMessageCollection: ComponentFramework.WebApi.Entity[];
     context: ComponentFramework.Context<IInputs>;
 }
 
@@ -23,93 +26,43 @@ const useStyles = makeStyles({
     },
 });
 
-const generateFakeEmails = (): IEmailCardProps[] => {
-    return [
-        {
-            from: "john.doe@example.com",
-            sent: "2023-10-01 10:00 AM",
-            to: "jane.doe@example.com",
-            subject: "Meeting Reminder",
-            content: "<p>Don't forget about our meeting tomorrow at 10 AM.</p>",
-            createdOn: new Date("2023-09-30T09:00:00"),
-            modifiedOn: new Date("2023-09-30T09:30:00"),
-            isVisualized: false,
-        },
-        {
-            from: "jane.doe@example.com",
-            sent: "2023-10-01 11:00 AM",
-            to: "john.doe@example.com",
-            subject: "Re: Meeting Reminder",
-            content: "<p>Got it! See you then.</p>",
-            createdOn: new Date("2023-09-30T10:00:00"),
-            modifiedOn: new Date("2023-09-30T10:15:00"),
-            isVisualized: false,
-        },
-        {
-            from: "alice.smith@example.com",
-            sent: "2023-10-02 09:00 AM",
-            to: "bob.jones@example.com",
-            subject: "Project Update",
-            content: "<p>The project is on track for completion by the end of the month.</p>",
-            createdOn: new Date("2023-10-01T08:00:00"),
-            modifiedOn: new Date("2023-10-01T08:30:00"),
-            isVisualized: true,
-        },
-        {
-            from: "bob.jones@example.com",
-            sent: "2023-10-02 10:00 AM",
-            to: "alice.smith@example.com",
-            subject: "Re: Project Update",
-            content: "<p>Thanks for the update. Let's discuss in our next meeting.</p>",
-            createdOn: new Date("2023-10-01T09:00:00"),
-            modifiedOn: new Date("2023-10-01T09:15:00"),
-            isVisualized: true,
-        },
-        {
-            from: "carol.white@example.com",
-            sent: "2023-10-03 08:00 AM",
-            to: "dave.black@example.com",
-            subject: "New Hire Orientation",
-            content: "<p>Welcome to the team! Your orientation is scheduled for tomorrow at 9 AM.</p>",
-            createdOn: new Date("2023-10-02T07:00:00"),
-            modifiedOn: new Date("2023-10-02T07:30:00"),
-            isVisualized: true,
-        },
-        {
-            from: "dave.black@example.com",
-            sent: "2023-10-03 09:00 AM",
-            to: "carol.white@example.com",
-            subject: "Re: New Hire Orientation",
-            content: "<p>Thank you! Looking forward to it.</p>",
-            createdOn: new Date("2023-10-02T08:00:00"),
-            modifiedOn: new Date("2023-10-02T08:15:00"),
-            isVisualized: true,
-        },
-        {
-            from: "eve.green@example.com",
-            sent: "2023-10-04 07:00 AM",
-            to: "frank.blue@example.com",
-            subject: "Weekly Report",
-            content: "<p>Please find the weekly report attached.</p>",
-            createdOn: new Date("2023-10-03T06:00:00"),
-            modifiedOn: new Date("2023-10-03T06:30:00"),
-            isVisualized: true,
-        },
-        {
-            from: "frank.blue@example.com",
-            sent: "2023-10-04 08:00 AM",
-            to: "eve.green@example.com",
-            subject: "Re: Weekly Report",
-            content: "<p>Received, thank you!</p>",
-            createdOn: new Date("2023-10-03T07:00:00"),
-            modifiedOn: new Date("2023-10-03T07:15:00"),
-            isVisualized: true,
-        },
-    ];
+// const generateEmailsFromJson = (): IEmailCardProps[] => {
+//     return sampleEmails.map((email: any) => {
+//         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
+//         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
+//         return {
+//             from: fromParty ? fromParty.addressused : "unknown",
+//             sent: new Date(email.createdon).toLocaleString(),
+//             to: toParty ? toParty.addressused : "unknown",
+//             subject: email.subject,
+//             content: email.description,
+//             createdOn: new Date(email.createdon),
+//             modifiedOn: new Date(email.modifiedon),
+//             isVisualized: email.statuscode === 6,
+//         };
+//     });
+// };
+
+const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
+    return emailMessages.map((email) => {
+        const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
+        const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
+        return {
+            from: fromParty ? fromParty.addressused : "unknown",
+            sent: new Date(email.createdon).toLocaleString(),
+            to: toParty ? toParty.addressused : "unknown",
+            subject: email.subject,
+            content: email.description,
+            createdOn: new Date(email.createdon),
+            modifiedOn: new Date(email.modifiedon),
+            isVisualized: email.statuscode === 6,
+        };
+    });
 };
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
-    const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateFakeEmails());
+    // const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateEmailsFromJson());
+    const [emails, setEmails] = React.useState<IEmailCardProps[]>(transformRawEmailMessages(props.emailMessageCollection));
     const styles = useStyles();
 
     return (

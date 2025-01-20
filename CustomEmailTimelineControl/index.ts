@@ -13,6 +13,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
 
     // Reference to ComponentFramework Context object
     private _context: ComponentFramework.Context<IInputs>;
+    private _emailMessageCollection: ComponentFramework.WebApi.Entity[];
 
     /**
      * Empty constructor.
@@ -34,9 +35,15 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         this.notifyOutputChanged = notifyOutputChanged;
         this._context = context;
         // context.mode.trackContainerResize(true);
+        this._emailMessageCollection = [];
 
         this.getCurrentEntityData();
-        this.getAllEmails();
+        this.getAllEmails().then(emails => {
+            this._emailMessageCollection = emails;
+            return emails;
+        }).catch(error => {
+            console.error("Error retrieving emails:", error);
+        });
     }
 
     private getCurrentEntityData(): Promise<ComponentFramework.WebApi.Entity | null> {
@@ -126,7 +133,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         // );
 
         return React.createElement(FluentProvider, { theme: webLightTheme },
-            React.createElement(Timeline, { context: this._context })
+            React.createElement(Timeline, { emailMessageCollection : this._emailMessageCollection, context: this._context })
             // React.createElement(EmailGrid, { context: this._context })
         );
     }
