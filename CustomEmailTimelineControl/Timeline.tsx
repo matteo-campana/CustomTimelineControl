@@ -61,9 +61,12 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
 };
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
-    // const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateEmailsFromJson());
     const [emails, setEmails] = React.useState<IEmailCardProps[]>(transformRawEmailMessages(props.emailMessageCollection));
     const styles = useStyles();
+
+    React.useEffect(() => {
+        setEmails(transformRawEmailMessages(props.emailMessageCollection));
+    }, [props.emailMessageCollection]);
 
     return (
         <div className={styles.main}>

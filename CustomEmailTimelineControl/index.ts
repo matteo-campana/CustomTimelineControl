@@ -40,6 +40,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         this.getCurrentEntityData();
         this.getAllEmails().then(emails => {
             this._emailMessageCollection = emails;
+            this.notifyOutputChanged(); // Notify the framework that the data has changed
             return emails;
         }).catch(error => {
             console.error("Error retrieving emails:", error);
@@ -74,11 +75,15 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
 
         const ancestors = await this.getCurrentEntityData().then((entity) => {
             if (entity) {
-                return [entity.incidentid, entity._parentcaseid_value];
+                return [entity?.incidentid, entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
             } else {
                 return [];
             }
         });
+
+        if (ancestors.length === 0) {
+            return [];
+        }
 
         const filterValues = ancestors.map((ancestor) => {
             return `<value uitype="incident">` + ancestor + `</value>`;
@@ -115,7 +120,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
             },
             (errorResponse) => {
                 console.error("Error retrieving emails:", errorResponse);
-                alert("Error retrieving emails: " + errorResponse);
+                // alert("Error retrieving emails: " + errorResponse);
                 return [];
             }
         );
