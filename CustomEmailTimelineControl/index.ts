@@ -12,9 +12,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     private notifyOutputChanged: () => void;
 
     // Reference to ComponentFramework Context object
-	private _context: ComponentFramework.Context<IInputs>;
-    private _resultContainerDiv: HTMLDivElement;
-
+    private _context: ComponentFramework.Context<IInputs>;
 
     /**
      * Empty constructor.
@@ -35,9 +33,85 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this._context = context;
-        this._resultContainerDiv = document.createElement("div");
-        this._resultContainerDiv.classList.add("resultContainer");
-        context.mode.trackContainerResize(true);
+        // context.mode.trackContainerResize(true);
+
+        this.getCurrentEntityData();
+        this.getAllEmails();
+    }
+
+    private getCurrentEntityData(): Promise<ComponentFramework.WebApi.Entity | null> {
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let entityId = (this._context.mode as any).contextInfo.entityId;
+        entityId = entityId.replace("{", "").replace("}", "");
+
+        console.log("Entity ID:", entityId);
+
+        return this._context.webAPI.retrieveRecord("incident", entityId, "?$select=*").then(
+            (response) => {
+                console.log("Parent case ID retrieved:", response);
+                console.table(response);
+                return response;
+            },
+            (errorResponse) => {
+                console.error("Error retrieving parent case ID:", errorResponse);
+                alert("Error retrieving parent case ID: " + errorResponse);
+                return null;
+            }
+        );
+    }
+
+    /**
+     * Retrieves all emails.
+     * @returns Promise resolving to an array of email records.
+     */
+    private async getAllEmails(): Promise<ComponentFramework.WebApi.Entity[]> {
+
+        const fetchXml = `
+            <fetch version="1.0" output-format="xml-platform" mapping="logical">
+                <entity name="email">
+                    <attribute name="subject" />
+                    <order attribute="subject" descending="false" />
+                    <attribute name="description" />
+                    <attribute name="regardingobjectid" />
+                    <attribute name="from" />
+                    <attribute name="to" />
+                    <attribute name="statuscode" />
+                    <attribute name="createdon" />
+                    <attribute name="modifiedon" />
+                    <attribute name="activityid" />
+                </entity>
+            </fetch>
+            `;
+        
+        const query = `?fetchXml=${fetchXml}`
+        return this._context.webAPI.retrieveMultipleRecords("email", query).then(
+            (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+                console.log("Emails retrieved:", response.entities);
+                console.table(response.entities);
+                return response.entities;
+            },
+            (errorResponse) => {
+                console.error("Error retrieving emails:", errorResponse);
+                alert("Error retrieving emails: " + errorResponse);
+                return [];
+            }
+        );
+
+        // const query = "?$select=*";
+        // const query = "?$select=from,to,subject,description,createdon,modifiedon";
+        // return this._context.webAPI.retrieveMultipleRecords("email", query).then(
+        //     (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+        //         console.log("Emails retrieved:", response.entities);
+        //         console.table(response.entities);
+        //         return response.entities;
+        //     },
+        //     (errorResponse) => {
+        //         console.error("Error retrieving emails:", errorResponse);
+        //         alert("Error retrieving emails: " + errorResponse);
+        //         return [];
+        //     }
+        // );
     }
 
     /**
@@ -51,35 +125,9 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         //     HelloWorld, props
         // );
 
-        this.getAllEmails()
-
         return React.createElement(FluentProvider, { theme: webLightTheme },
-            React.createElement(Timeline, { initialEmails: [] })
+            React.createElement(Timeline, { context: this._context })
             // React.createElement(EmailGrid, { context: this._context })
-        );
-
-    }
-
-    /**
-     * Retrieves all emails.
-     * @returns Promise resolving to an array of email records.
-     */
-    private getAllEmails(): Promise<ComponentFramework.WebApi.Entity[]> {
-        const query = "?$select=from,to,subject,description,createdon,modifiedon";
-        return this._context.webAPI.retrieveMultipleRecords("email", query).then(
-            (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
-                console.log("Emails retrieved:", response.entities);
-                if (this._resultContainerDiv) {
-                    alert("Emails retrieved: " + response.entities);
-                    console.table(response.entities);
-                }
-                return response.entities;
-            },
-            (errorResponse) => {
-                console.error("Error retrieving emails:", errorResponse);
-                alert("Error retrieving emails: " + errorResponse);
-                return [];
-            }
         );
     }
 
@@ -98,4 +146,5 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     public destroy(): void {
         // Add code to cleanup control if necessary
     }
+
 }

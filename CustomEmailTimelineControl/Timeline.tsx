@@ -4,10 +4,11 @@ import {
     makeStyles,
     tokens
 } from "@fluentui/react-components";
+import { IInputs } from "./generated/ManifestTypes";
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
-    initialEmails?: IEmailCardProps[];
+    context: ComponentFramework.Context<IInputs>;
 }
 
 const useStyles = makeStyles({
@@ -110,6 +111,44 @@ const generateFakeEmails = (): IEmailCardProps[] => {
 const Timeline: React.FC<ITimelineProps> = (props) => {
     const [emails, setEmails] = React.useState<IEmailCardProps[]>(generateFakeEmails());
     const styles = useStyles();
+
+    // React.useEffect(() => {
+    //     if (props.context.webAPI) {
+    //         getAllEmails().then(fetchedEmails => {
+    //             setEmails(fetchedEmails);
+    //             return fetchedEmails;
+    //         }).catch(error => {
+    //             console.error("Error fetching emails:", error);
+    //             alert("Error fetching emails: " + error);
+    //         });
+    //     } else {
+    //         setEmails(generateFakeEmails());
+    //     }
+    // }, []);
+
+    // const getAllEmails = (): Promise<IEmailCardProps[]> => {
+    //     const query = "?$select=torecipients,createdon,subject,description,modifiedon";
+    //     return props.context.webAPI.retrieveMultipleRecords("email", query).then(
+    //         (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+    //             console.log("Emails retrieved:", response.entities);
+    //             alert("Emails retrieved: " + response.entities.map(entity => entity.subject).join("\n"));
+    //             return response.entities.map(entity => ({
+    //                 from: entity.torecipients,
+    //                 sent: entity["createdon@OData.Community.Display.V1.FormattedValue"],
+    //                 to: entity.torecipients,
+    //                 subject: entity.subject,
+    //                 content: entity.description,
+    //                 createdOn: new Date(entity.createdon),
+    //                 modifiedOn: new Date(entity.modifiedon),
+    //                 isVisualized: true,
+    //             }));
+    //         },
+    //         (errorResponse) => {
+    //             console.error("Error retrieving emails:", errorResponse);
+    //             return [];
+    //         }
+    //     );
+    // };
 
     return (
         <div className={styles.main}>
