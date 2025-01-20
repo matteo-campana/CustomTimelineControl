@@ -67,20 +67,24 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
 
     return (
         <div className={styles.main}>
-            {emails.map((email, index) => (
-                <EmailCard
-                    key={index}
-                    from={email.from}
-                    sent={email.sent}
-                    to={email.to}
-                    subject={email.subject}
-                    content={email.content}
-                    createdOn={email.createdOn}
-                    modifiedOn={email.modifiedOn}
-                    isVisualized={email.isVisualized}
-                    //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
-                />
-            ))}
+            {emails.length > 0 ? (
+                emails.map((email, index) => (
+                    <EmailCard
+                        key={index}
+                        from={email.from}
+                        sent={email.sent}
+                        to={email.to}
+                        subject={email.subject}
+                        content={email.content}
+                        createdOn={email.createdOn}
+                        modifiedOn={email.modifiedOn}
+                        isVisualized={email.isVisualized}
+                        //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
+                    />
+                ))
+            ) : (
+                <div>No email messages available.</div>
+            )}
         </div>
     );
 };
