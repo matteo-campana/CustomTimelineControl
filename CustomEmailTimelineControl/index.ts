@@ -11,6 +11,11 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs>;
     private notifyOutputChanged: () => void;
 
+    // Reference to ComponentFramework Context object
+	private _context: ComponentFramework.Context<IInputs>;
+    private _resultContainerDiv: HTMLDivElement;
+
+
     /**
      * Empty constructor.
      */
@@ -29,6 +34,10 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         state: ComponentFramework.Dictionary
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
+        this._context = context;
+        this._resultContainerDiv = document.createElement("div");
+        this._resultContainerDiv.classList.add("resultContainer");
+        context.mode.trackContainerResize(true);
     }
 
     /**
@@ -42,11 +51,36 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         //     HelloWorld, props
         // );
 
+        this.getAllEmails()
+
         return React.createElement(FluentProvider, { theme: webLightTheme },
-            // React.createElement(Timeline, { initialEmails: [] })
-            React.createElement(EmailGrid, { context: context })
+            React.createElement(Timeline, { initialEmails: [] })
+            // React.createElement(EmailGrid, { context: this._context })
         );
 
+    }
+
+    /**
+     * Retrieves all emails.
+     * @returns Promise resolving to an array of email records.
+     */
+    private getAllEmails(): Promise<ComponentFramework.WebApi.Entity[]> {
+        const query = "?$select=from,to,subject,description,createdon,modifiedon";
+        return this._context.webAPI.retrieveMultipleRecords("email", query).then(
+            (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+                console.log("Emails retrieved:", response.entities);
+                if (this._resultContainerDiv) {
+                    alert("Emails retrieved: " + response.entities);
+                    console.table(response.entities);
+                }
+                return response.entities;
+            },
+            (errorResponse) => {
+                console.error("Error retrieving emails:", errorResponse);
+                alert("Error retrieving emails: " + errorResponse);
+                return [];
+            }
+        );
     }
 
     /**

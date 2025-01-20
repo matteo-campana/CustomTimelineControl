@@ -20,6 +20,7 @@ const EmailGrid: React.FC<EmailGridProps> = ({ context }) => {
         const fetchEmails = async () => {
             try {
                 const result = await context.webAPI.retrieveMultipleRecords("email", "?$select=subject,description,from,createdon&$orderby=createdon desc");
+                console.log("Emails: ", result);
                 setEmails(result.entities as Email[]);
             } catch (error) {
                 if (error instanceof Error) {
