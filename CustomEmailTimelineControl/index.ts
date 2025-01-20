@@ -3,7 +3,6 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { Timeline } from './Timeline';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
-import EmailGrid from './EmailGrid';
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -111,7 +110,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 </entity>
             </fetch>
             `;
-        
+
         const query = `?fetchXml=${fetchXml}`
         return this._context.webAPI.retrieveMultipleRecords("email", query).then(
             (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
@@ -133,14 +132,12 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        // const props: IHelloWorldProps = { name: 'Power Apps' };
-        // return React.createElement(
-        //     HelloWorld, props
-        // );
-
         return React.createElement(FluentProvider, { theme: webLightTheme },
-            React.createElement(Timeline, { emailMessageCollection : this._emailMessageCollection, context: this._context })
-            // React.createElement(EmailGrid, { context: this._context })
+            React.createElement(
+                Timeline, {
+                emailMessageCollection: this._emailMessageCollection,
+                context: this._context
+            })
         );
     }
 
