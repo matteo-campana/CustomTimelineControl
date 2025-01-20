@@ -3,7 +3,9 @@ import * as React from "react";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import {
     makeStyles,
-    tokens
+    tokens,
+    Label,
+    Spinner,
 } from "@fluentui/react-components";
 import { IInputs } from "./generated/ManifestTypes";
 // import sampleEmails from "./sample_email.json";
@@ -61,16 +63,26 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
 };
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
-    const [emails, setEmails] = React.useState<IEmailCardProps[]>(transformRawEmailMessages(props.emailMessageCollection));
+    const [emails, setEmails] = React.useState<IEmailCardProps[]>([]);
+    const [loading, setLoading] = React.useState(true);
     const styles = useStyles();
 
     React.useEffect(() => {
-        setEmails(transformRawEmailMessages(props.emailMessageCollection));
+        setLoading(true);
+        const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+        setEmails(transformedEmails);
+        setLoading(false);
     }, [props.emailMessageCollection]);
 
     return (
         <div className={styles.main}>
-            {emails.length > 0 ? (
+            {loading ? (
+                <Spinner appearance="primary" label="Loading parent case email messages..." />
+            ) : emails.length === 0 ? (
+                <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
+                    There are no e-mails available for the parent case.
+                </Label>
+            ) : (
                 emails.map((email, index) => (
                     <EmailCard
                         key={index}
@@ -85,8 +97,6 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                         //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
                     />
                 ))
-            ) : (
-                <div>No email messages available.</div>
             )}
         </div>
     );

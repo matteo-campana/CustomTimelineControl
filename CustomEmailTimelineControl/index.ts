@@ -75,7 +75,8 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
 
         const ancestors = await this.getCurrentEntityData().then((entity) => {
             if (entity) {
-                return [entity?.incidentid, entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
+                // return [entity?.incidentid, entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
+                return [entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
             } else {
                 return [];
             }
