@@ -17,6 +17,7 @@ import {
     MenuPopover,
     MenuTrigger,
     Tooltip,
+    ToggleButton,
 } from "@fluentui/react-components";
 
 import { CalendarMonthRegular, MoreHorizontal20Regular } from "@fluentui/react-icons";
@@ -54,9 +55,26 @@ const useStyles = makeStyles({
         width: "100%",
         height: "fit-content"
     },
+    content: {
+        maxHeight: "100px",
+        overflow: "hidden",
+    },
+    expandedContent: {
+        maxHeight: "none",
+    },
 });
 
 export const EmailCard: React.FC<IEmailCardProps> = (props) => {
+    const [isExpanded, setIsExpanded] = React.useState(false);
+    const [isOverflowing, setIsOverflowing] = React.useState(false);
+    const contentRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (contentRef.current) {
+            setIsOverflowing(contentRef.current.scrollHeight > contentRef.current.clientHeight);
+        }
+    }, [props.content]);
+
     const onClick = React.useCallback(() => console.log("Interactive!"), []);
     const styles = useStyles();
     return (
@@ -119,10 +137,15 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                     <Text>{props.subject}</Text>
                 </div>
 
-                <div>
+                <div ref={contentRef} className={isExpanded ? styles.expandedContent : styles.content}>
                     <Caption1>Content: </Caption1>
                     <div dangerouslySetInnerHTML={{ __html: props.content }} />
                 </div>
+                {isOverflowing && (
+                    <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
+                        {isExpanded ? "Show Less" : "Show More"}
+                    </ToggleButton>
+                )}
             </div>
 
             <CardFooter className={styles.footer} >
