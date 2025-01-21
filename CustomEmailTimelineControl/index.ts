@@ -88,11 +88,39 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      * @returns Promise resolving to an array of email records.
      */
     private async getAllEmails(): Promise<ComponentFramework.WebApi.Entity[]> {
+        const collectCurrent = this._context.parameters.CollectCurrentRecordEmails.raw;
+        const collectParent = this._context.parameters.CollectParentEmails.raw;
+        const collectAncestors = this._context.parameters.CollectAncestorEmails.raw;
 
-        const ancestors = await this.getCurrentEntityData().then((entity) => {
+        const ancestors = await this.getCurrentEntityData().then(async (entity) => {
             if (entity) {
-                // return [entity?.incidentid, entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
-                return [entity?._parentcaseid_value].filter((ancestor) => ancestor !== null);
+                const ancestorIds = [];
+                if (collectCurrent) {
+                    ancestorIds.push(entity.incidentid);
+                }
+                if (collectParent && entity._parentcaseid_value) {
+                    ancestorIds.push(entity._parentcaseid_value);
+                }
+                if (collectAncestors) {
+                    // Add logic to fetch all ancestor IDs
+                    if (entity._parentcaseid_value) {
+                        ancestorIds.push(entity._parentcaseid_value);
+
+                        let currentParentId = entity._parentcaseid_value;
+
+                        while (currentParentId) {
+                            const parentEntity = await this.getIncidentEntityData(currentParentId);
+                            if (parentEntity && parentEntity._parentcaseid_value) {
+                                currentParentId = parentEntity._parentcaseid_value;
+                                ancestorIds.push(currentParentId);
+                            } else {
+                                currentParentId = null;
+                            }
+                        }
+                    }
+
+                }
+                return ancestorIds;
             } else {
                 return [];
             }
