@@ -95,15 +95,17 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 action={
                     <Menu>
                         <MenuTrigger disableButtonEnhancement>
-                            <Tooltip content="Large with calendar icon only" relationship="label">
+                            <Tooltip content="More Options" relationship="label">
                                 <MenuButton icon={<MoreHorizontal20Regular />} size="large" />
                             </Tooltip>
                         </MenuTrigger>
                         <MenuPopover>
                             <MenuList>
                                 <MenuItem onClick={() => {
-                                    console.log(`Opening email record with ID: ${props.emailId}`);
-                                    window.open(`https://your-dynamics365-url.com/main.aspx?appid=your-app-id&pagetype=entityrecord&etn=email&id=${props.emailId}`, '_blank')
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const environmentUrl = window.location.href.split('/main.aspx?')[0];
+                                    const appId = urlParams.get('appid');
+                                    window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=email&id=${props.emailId}`, '_blank');
                                 }}>Open Record {`>`} </MenuItem>
                             </MenuList>
                         </MenuPopover>
