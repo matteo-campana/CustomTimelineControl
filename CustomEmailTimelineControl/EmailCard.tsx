@@ -10,12 +10,19 @@ import {
     Avatar,
     makeStyles,
     tokens,
+    Menu,
+    MenuButton,
+    MenuItem,
+    MenuList,
+    MenuPopover,
+    MenuTrigger,
+    Tooltip,
 } from "@fluentui/react-components";
 
-import { MoreHorizontal20Regular } from "@fluentui/react-icons";
-
+import { CalendarMonthRegular, MoreHorizontal20Regular } from "@fluentui/react-icons";
 
 export interface IEmailCardProps {
+    emailId: string;
     from: string;
     sent: string;
     to: string;
@@ -86,11 +93,21 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
 
                 // }
                 action={
-                    <Button
-                        appearance="transparent"
-                        icon={<MoreHorizontal20Regular />}
-                        aria-label="More options"
-                    />
+                    <Menu>
+                        <MenuTrigger disableButtonEnhancement>
+                            <Tooltip content="Large with calendar icon only" relationship="label">
+                                <MenuButton icon={<MoreHorizontal20Regular />} size="large" />
+                            </Tooltip>
+                        </MenuTrigger>
+                        <MenuPopover>
+                            <MenuList>
+                                <MenuItem onClick={() => {
+                                    console.log(`Opening email record with ID: ${props.emailId}`);
+                                    window.open(`https://your-dynamics365-url.com/main.aspx?appid=your-app-id&pagetype=entityrecord&etn=email&id=${props.emailId}`, '_blank')
+                                }}>Open Record {`>`} </MenuItem>
+                            </MenuList>
+                        </MenuPopover>
+                    </Menu>
                 }
             />
 

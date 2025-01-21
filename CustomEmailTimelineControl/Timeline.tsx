@@ -8,7 +8,7 @@ import {
     Spinner,
 } from "@fluentui/react-components";
 import { IInputs } from "./generated/ManifestTypes";
-// import sampleEmails from "./sample_email.json";
+import sampleEmails from "./sample_email.json";
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
@@ -31,22 +31,23 @@ const useStyles = makeStyles({
     },
 });
 
-// const generateEmailsFromJson = (): IEmailCardProps[] => {
-//     return sampleEmails.map((email: any) => {
-//         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
-//         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
-//         return {
-//             from: fromParty ? fromParty.addressused : "unknown",
-//             sent: new Date(email.createdon).toLocaleString(),
-//             to: toParty ? toParty.addressused : "unknown",
-//             subject: email.subject,
-//             content: email.description,
-//             createdOn: new Date(email.createdon),
-//             modifiedOn: new Date(email.modifiedon),
-//             isVisualized: email.statuscode === 6,
-//         };
-//     });
-// };
+const generateEmailsFromJson = (): IEmailCardProps[] => {
+    return sampleEmails.map((email: any) => {
+        const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
+        const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
+        return {
+            from: fromParty ? fromParty.addressused : "unknown",
+            sent: new Date(email.createdon).toLocaleString(),
+            to: toParty ? toParty.addressused : "unknown",
+            subject: email.subject,
+            content: email.description,
+            createdOn: new Date(email.createdon),
+            modifiedOn: new Date(email.modifiedon),
+            isVisualized: email.statuscode === 6,
+            emailId: email.activityid,
+        };
+    });
+};
 
 const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
     return emailMessages.map((email) => {
@@ -61,6 +62,7 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
             createdOn: new Date(email.createdon),
             modifiedOn: new Date(email.modifiedon),
             isVisualized: email.statuscode === 6,
+            emailId: email.activityid,
         };
     });
 };
@@ -70,19 +72,19 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
     const [loading, setLoading] = React.useState(true);
     const styles = useStyles();
 
-    // React.useEffect(() => {
-    //     setLoading(true);
-    //     const transformedEmails = generateEmailsFromJson();
-    //     setEmails(transformedEmails);
-    //     setLoading(false);
-    // }, []); // Re-run effect when container size changes
-
     React.useEffect(() => {
         setLoading(true);
-        const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+        const transformedEmails = generateEmailsFromJson();
         setEmails(transformedEmails);
         setLoading(false);
-    }, [props.emailMessageCollection]);
+    }, []); // Re-run effect when container size changes
+
+    // React.useEffect(() => {
+    //     setLoading(true);
+    //     const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+    //     setEmails(transformedEmails);
+    //     setLoading(false);
+    // }, [props.emailMessageCollection]);
 
     return (
         <div className={styles.main}
@@ -106,6 +108,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                         createdOn={email.createdOn}
                         modifiedOn={email.modifiedOn}
                         isVisualized={email.isVisualized}
+                        emailId={email.emailId}
                     //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
                     />
                 ))
