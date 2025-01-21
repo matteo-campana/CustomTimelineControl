@@ -1,26 +1,27 @@
-import * as React from "react";
 import {
-    Text,
-    Card,
-    CardHeader,
-    CardFooter,
-    Button,
-    Caption1,
-    Body1,
     Avatar,
+    Body1,
+    Caption1,
+    Card,
+    CardFooter,
+    CardHeader,
     makeStyles,
-    tokens,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
     MenuPopover,
     MenuTrigger,
-    Tooltip,
+    Text,
     ToggleButton,
+    Tooltip
 } from "@fluentui/react-components";
+import * as React from "react";
 
-import { CalendarMonthRegular, MoreHorizontal20Regular } from "@fluentui/react-icons";
+import DOMPurify from 'dompurify';
+
+
+import { MoreHorizontal20Regular } from "@fluentui/react-icons";
 
 export interface IEmailCardProps {
     emailId: string;
@@ -68,6 +69,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
     const [isExpanded, setIsExpanded] = React.useState(false);
     const [isOverflowing, setIsOverflowing] = React.useState(false);
     const contentRef = React.useRef<HTMLDivElement>(null);
+
 
     React.useEffect(() => {
         if (contentRef.current) {
@@ -139,7 +141,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
 
                 <div ref={contentRef} className={isExpanded ? styles.expandedContent : styles.content}>
                     <Caption1>Content: </Caption1>
-                    <div dangerouslySetInnerHTML={{ __html: props.content }} />
+                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 </div>
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>

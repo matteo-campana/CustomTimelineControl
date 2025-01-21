@@ -14,8 +14,9 @@
     "build:prod": "npm run build -- --buildMode production"
   },
   "dependencies": {
-    "react": "16.14.0",
     "@fluentui/react-components": "9.46.2",
+    "dompurify": "^3.2.3",
+    "react": "16.14.0",
     "react-dom": "16.14.0"
   },
   "devDependencies": {
