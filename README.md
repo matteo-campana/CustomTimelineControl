@@ -87,18 +87,6 @@ To create and import a solution file:
     ```powershell
     pac auth select --index <index of the active profile>
     ```
-4. Get basic information about the environment:
-    ```powershell
-    pac org who
-    ```
-5. Delete a particular authentication profile:
-    ```powershell
-    pac auth delete --index <index of the profile>
-    ```
-6. Clear all authentication profiles:
-    ```powershell
-    pac auth clear
-    ```
 
 ### Deploying code components
 
@@ -109,6 +97,15 @@ To create and import a solution file:
     pac pcf push --publisher-prefix <your publisher prefix>
     ```
     > Note: The publisher prefix that you use with the push command should match the publisher prefix of your solution in which the components will be included.
+
+## Input Parameters
+
+The Custom Email Timeline Control accepts the following input parameters:
+
+- `DebugMode`: A boolean option to enable or disable debug mode.
+- `CollectCurrentRecordEmails`: A boolean option to collect emails related to the current record.
+- `CollectParentEmails`: A boolean option to collect emails related to the parent record.
+- `CollectAncestorEmails`: A boolean option to collect emails related to ancestor records.
 
 ## Scripts
 
@@ -121,7 +118,6 @@ The following scripts are available:
 - `rebuild`: Rebuilds the project using `pcf-scripts rebuild`.
 - `start`: Starts the project using `pcf-scripts start`.
 - `start:watch`: Starts the project in watch mode using `pcf-scripts start watch`.
-- `refreshTypes`: Refreshes the types using `pcf-scripts refreshTypes`.
 
 ## Dependencies
 
@@ -146,3 +142,12 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## ⭐️ Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📬 Stay in touch
+
+- Author: Matteo Campana
+- GitHub: [matteo-campana](https://github.com/matteo-campana)
