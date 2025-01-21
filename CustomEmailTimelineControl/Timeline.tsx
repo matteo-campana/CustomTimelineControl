@@ -71,19 +71,22 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
     const [loading, setLoading] = React.useState(true);
     const styles = useStyles();
 
-    // React.useEffect(() => {
-    //     setLoading(true);
-    //     const transformedEmails = generateEmailsFromJson();
-    //     setEmails(transformedEmails);
-    //     setLoading(false);
-    // }, []); // Re-run effect when container size changes
+    if (props.context.parameters.DebugMode.raw === true) {
 
-    React.useEffect(() => {
-        setLoading(true);
-        const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
-        setEmails(transformedEmails);
-        setLoading(false);
-    }, [props.emailMessageCollection]);
+        React.useEffect(() => {
+            setLoading(true);
+            const transformedEmails = generateEmailsFromJson();
+            setEmails(transformedEmails);
+            setLoading(false);
+        }, []); // Re-run effect when container size changes
+    } else {
+        React.useEffect(() => {
+            setLoading(true);
+            const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+            setEmails(transformedEmails);
+            setLoading(false);
+        }, [props.emailMessageCollection]);
+    }
 
     return (
         <div className={styles.main}

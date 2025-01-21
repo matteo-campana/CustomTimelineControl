@@ -33,17 +33,19 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this._context = context;
-        // context.mode.trackContainerResize(true);
+        
         this._emailMessageCollection = [];
 
-        this.getCurrentEntityData();
-        this.getAllEmails().then(emails => {
-            this._emailMessageCollection = emails;
-            this.notifyOutputChanged(); // Notify the framework that the data has changed
-            return emails;
-        }).catch(error => {
-            console.error("Error retrieving emails:", error);
-        });
+        if (context.parameters.DebugMode.raw == false) {
+            this.getCurrentEntityData();
+            this.getAllEmails().then(emails => {
+                this._emailMessageCollection = emails;
+                this.notifyOutputChanged(); // Notify the framework that the data has changed
+                return emails;
+            }).catch(error => {
+                console.error("Error retrieving emails:", error);
+            });
+        }
 
         this._context.mode.trackContainerResize(true);
     }
