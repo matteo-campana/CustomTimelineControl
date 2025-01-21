@@ -127,7 +127,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         });
 
         ancestors = Array.from(new Set(ancestors));
-        
+
         if (ancestors.length === 0) {
             return [];
         }
