@@ -92,7 +92,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         const collectParent = this._context.parameters.CollectParentEmails.raw;
         const collectAncestors = this._context.parameters.CollectAncestorEmails.raw;
 
-        const ancestors = await this.getCurrentEntityData().then(async (entity) => {
+        let ancestors = await this.getCurrentEntityData().then(async (entity) => {
             if (entity) {
                 const ancestorIds = [];
                 if (collectCurrent) {
@@ -126,6 +126,8 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
             }
         });
 
+        ancestors = Array.from(new Set(ancestors));
+        
         if (ancestors.length === 0) {
             return [];
         }

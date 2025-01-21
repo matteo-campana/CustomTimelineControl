@@ -25,9 +25,9 @@
       -->
     </data-set>
     <property name="DebugMode" display-name-key="DebugMode_Display_Key" description-key="DebugMode_Desc_Key" of-type="TwoOptions" usage="bound" required="true" />
-    <property name="CollectCurrentRecordEmails" display-name-key="CollectCurrentRecordEmails_Display_Key" description-key="CollectCurrentRecordEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
-    <property name="CollectParentEmails" display-name-key="CollectParentEmails_Display_Key" description-key="CollectParentEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
-    <property name="CollectAncestorEmails" display-name-key="CollectAncestorEmails_Display_Key" description-key="CollectAncestorEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
+    <property name="CollectCurrentRecordEmails" display-name-key="CollectCurrentRecordEmails_Display_Key" description-key="CollectCurrentRecordEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="true" />
+    <property name="CollectParentEmails" display-name-key="CollectParentEmails_Display_Key" description-key="CollectParentEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="true" />
+    <property name="CollectAncestorEmails" display-name-key="CollectAncestorEmails_Display_Key" description-key="CollectAncestorEmails_Desc_Key" of-type="TwoOptions" usage="bound" required="true" />
     <resources>
       <code path="index.ts" order="1" />
       <platform-library name="React" version="16.14.0" />
