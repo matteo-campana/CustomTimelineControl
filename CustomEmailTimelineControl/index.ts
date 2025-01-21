@@ -33,7 +33,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this._context = context;
-        
+
         this._emailMessageCollection = [];
 
         if (context.parameters.DebugMode.raw == false) {
@@ -48,6 +48,19 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         }
 
         this._context.mode.trackContainerResize(true);
+    }
+
+    private getIncidentEntityData(incidentId: string): Promise<ComponentFramework.WebApi.Entity | null> {
+        incidentId = incidentId.replace("{", "").replace("}", "");
+        return this._context.webAPI.retrieveRecord("incident", incidentId, "?$select=incidentid,_parentcaseid_value").then(
+            (response) => {
+                return response;
+            },
+            (errorResponse) => {
+                console.error("Error retrieving parent case ID:", errorResponse);
+                return null;
+            }
+        );
     }
 
     private getCurrentEntityData(): Promise<ComponentFramework.WebApi.Entity | null> {
