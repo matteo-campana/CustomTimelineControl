@@ -45,7 +45,7 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         width: "100%",
-        height: "fit-content",
+        height: "fit-content"
     },
 });
 
@@ -59,9 +59,9 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
             className={styles.card}
             style={{
                 ...props.style, // Apply custom styles
-                borderLeftColor: !props.isVisualized ? tokens.colorBrandBackground : tokens.colorNeutralBackground1,
-                borderLeftWidth: '4px',
-                borderLeftStyle: 'solid'
+                // borderLeftColor: !props.isVisualized ? tokens.colorBrandBackground : tokens.colorNeutralBackground1,
+                // borderLeftWidth: '4px',
+                // borderLeftStyle: 'solid'
             }}
         >
             <CardHeader
@@ -71,6 +71,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         name={props.from.toUpperCase()}
                         size={48}
                         shape="circular"
+                        color="brand"
                         initials={props.from.split('@')[0].split('.').map(name => name[0].toUpperCase()).join('')}
                     />
                 }
@@ -93,16 +94,20 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 }
             />
 
-            <div style={{ marginBottom: "8px" }}>
-                <Caption1>
-                    <Text>Subject: {props.subject}</Text>
-                </Caption1>
-                <Text>Content:</Text>
-                <div dangerouslySetInnerHTML={{ __html: props.content }} />
+            <div style={{ display: "flex", flexDirection: "column", padding: "8px" }}>
+                <div>
+                    <Caption1>Subject: </Caption1>
+                    <Text>{props.subject}</Text>
+                </div>
+
+                <div>
+                    <Caption1>Content: </Caption1>
+                    <div dangerouslySetInnerHTML={{ __html: props.content }} />
+                </div>
             </div>
 
             <CardFooter className={styles.footer} >
-                <Text>Created On: {props.createdOn.toLocaleString()}</Text>
+                {/* <Text>Created On: {props.createdOn.toLocaleString()}</Text> */}
                 <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
             </CardFooter>
         </Card>

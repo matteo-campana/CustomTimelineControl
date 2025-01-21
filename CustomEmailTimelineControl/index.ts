@@ -44,6 +44,8 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         }).catch(error => {
             console.error("Error retrieving emails:", error);
         });
+
+        this._context.mode.trackContainerResize(true);
     }
 
     private getCurrentEntityData(): Promise<ComponentFramework.WebApi.Entity | null> {
@@ -132,11 +134,15 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+
+        console.log("updateView called with context:", context.mode.allocatedHeight, context.mode.allocatedWidth);
+
         return React.createElement(FluentProvider, { theme: webLightTheme },
             React.createElement(
                 Timeline, {
                 emailMessageCollection: this._emailMessageCollection,
-                context: this._context
+                context: this._context,
+                width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth + "px"
             })
         );
     }
