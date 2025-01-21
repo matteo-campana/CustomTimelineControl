@@ -138,11 +138,12 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                     <Caption1>Subject: </Caption1>
                     <Text>{props.subject}</Text>
                 </div>
+                <Caption1>Content: </Caption1>
 
-                <div ref={contentRef} className={isExpanded ? styles.expandedContent : styles.content}>
-                    <Caption1>Content: </Caption1>
-                    <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
-                </div>
+                <div
+                    ref={contentRef}
+                    className={isExpanded ? styles.expandedContent : styles.content}
+                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
                         {isExpanded ? "Show Less" : "Show More"}
