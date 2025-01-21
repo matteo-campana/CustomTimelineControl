@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+    Label,
+    makeStyles,
+    Spinner
+} from "@fluentui/react-components";
 import * as React from "react";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
-import {
-    makeStyles,
-    tokens,
-    Label,
-    Spinner,
-} from "@fluentui/react-components";
 import { IInputs } from "./generated/ManifestTypes";
 import sampleEmails from "./sample_email.json";
 
@@ -72,24 +71,24 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
     const [loading, setLoading] = React.useState(true);
     const styles = useStyles();
 
-    React.useEffect(() => {
-        setLoading(true);
-        const transformedEmails = generateEmailsFromJson();
-        setEmails(transformedEmails);
-        setLoading(false);
-    }, []); // Re-run effect when container size changes
-
     // React.useEffect(() => {
     //     setLoading(true);
-    //     const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+    //     const transformedEmails = generateEmailsFromJson();
     //     setEmails(transformedEmails);
     //     setLoading(false);
-    // }, [props.emailMessageCollection]);
+    // }, []); // Re-run effect when container size changes
+
+    React.useEffect(() => {
+        setLoading(true);
+        const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+        setEmails(transformedEmails);
+        setLoading(false);
+    }, [props.emailMessageCollection]);
 
     return (
         <div className={styles.main}
             style={{ width: `${props.width}` }}
-            >
+        >
             {loading ? (
                 <Spinner appearance="primary" label="Loading parent case email messages..." />
             ) : emails.length === 0 ? (
@@ -118,3 +117,4 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
 };
 
 export { Timeline };
+
