@@ -66,7 +66,7 @@ const useStyles = makeStyles({
     expandedContent: {
         maxHeight: "none",
         marginBottom: "8px",
-        overflow: "auto",
+        overflowY: "auto",
         wordWrap: "break-word",
     },
 });

@@ -27,9 +27,9 @@ const useStyles = makeStyles({
         // height: "900px",
         height: "100%",
         width: "100%",
-        marginLeft : "4px",
-        marginTop : "4px",
-        marginBottom : "4px",
+        marginLeft: "4px",
+        marginTop: "4px",
+        marginBottom: "4px",
     },
 });
 
@@ -75,7 +75,6 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
     const styles = useStyles();
 
     if (props.context.parameters.DebugMode.raw === true) {
-
         React.useEffect(() => {
             setLoading(true);
             const transformedEmails = generateEmailsFromJson();
@@ -83,6 +82,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
             setLoading(false);
         }, []); // Re-run effect when container size changes
     } else {
+        setLoading(true);
         React.useEffect(() => {
             setLoading(true);
             const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
@@ -97,7 +97,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
         >
             {loading ? (
                 <Spinner appearance="primary" label="Loading parent case email messages..." />
-            ) : emails.length === 0 ? (
+            ) : (loading === false && emails.length === 0) ? (
                 <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
                     There are no e-mails available for the parent case.
                 </Label>
