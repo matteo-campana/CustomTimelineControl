@@ -58,10 +58,13 @@ const useStyles = makeStyles({
     },
     content: {
         maxHeight: "100px",
-        overflow: "hidden",
+        overflowY: "hidden",
+        textOverflow: "ellipsis",
+        marginBottom: "8px",
     },
     expandedContent: {
         maxHeight: "none",
+        marginBottom: "8px",
     },
 });
 
@@ -139,7 +142,6 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                     <Text>{props.subject}</Text>
                 </div>
                 <Caption1>Content: </Caption1>
-
                 <div
                     ref={contentRef}
                     className={isExpanded ? styles.expandedContent : styles.content}
