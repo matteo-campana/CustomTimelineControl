@@ -79,15 +79,22 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
             setLoading(true);
             const transformedEmails = generateEmailsFromJson();
             setEmails(transformedEmails);
-            setLoading(false);
+            // setLoading(false);
+
+            setTimeout(() => {
+                setLoading(false);
+            }, 3000);
         }, []); // Re-run effect when container size changes
     } else {
-        setLoading(true);
         React.useEffect(() => {
             setLoading(true);
             const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
             setEmails(transformedEmails);
-            setLoading(false);
+            // setLoading(false);
+
+            setTimeout(() => {
+                setLoading(false);
+            }, 7000);
         }, [props.emailMessageCollection]);
     }
 
