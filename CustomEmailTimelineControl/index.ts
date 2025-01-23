@@ -187,7 +187,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 Timeline, {
                 emailMessageCollection: this._emailMessageCollection,
                 context: this._context,
-                width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth + "px"
+                width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth - 8 + "px"
             })
         );
     }

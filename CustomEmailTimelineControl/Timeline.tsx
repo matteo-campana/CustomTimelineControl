@@ -27,6 +27,9 @@ const useStyles = makeStyles({
         // height: "900px",
         height: "100%",
         width: "100%",
+        marginLeft : "4px",
+        marginTop : "4px",
+        marginBottom : "4px",
     },
 });
 
