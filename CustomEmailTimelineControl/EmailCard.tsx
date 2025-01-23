@@ -61,10 +61,13 @@ const useStyles = makeStyles({
         overflowY: "hidden",
         textOverflow: "ellipsis",
         marginBottom: "8px",
+        wordWrap: "break-word",
     },
     expandedContent: {
         maxHeight: "none",
         marginBottom: "8px",
+        overflow: "auto",
+        wordWrap: "break-word",
     },
 });
 
