@@ -94,7 +94,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
 
             setTimeout(() => {
                 setLoading(false);
-            }, 7000);
+            }, 3000);
         }, [props.emailMessageCollection]);
     }
 
