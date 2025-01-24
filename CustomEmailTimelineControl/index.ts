@@ -206,7 +206,10 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as "bound" or "output"
      */
     public getOutputs(): IOutputs {
-        return {};
+        return {
+            emailMessageCollection: this._emailMessageCollection,
+            loading: this._emailLoadInProgress
+        };
     }
 
     /**
