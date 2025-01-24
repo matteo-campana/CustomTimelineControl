@@ -13,6 +13,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     // Reference to ComponentFramework Context object
     private _context: ComponentFramework.Context<IInputs>;
     private _emailMessageCollection: ComponentFramework.WebApi.Entity[];
+    private _emailLoadInProgress: boolean = true;
 
     /**
      * Empty constructor.
@@ -35,13 +36,20 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         this._context = context;
 
         this._emailMessageCollection = [];
+        this._emailLoadInProgress = true;
+
+        // Check if we are in debug mode and set a timer to simulate loading
+        if(context.parameters.DebugMode.raw == true) {
+            this._emailLoadInProgress = false;
+        }
 
         if (context.parameters.DebugMode.raw == false) {
             this.getCurrentEntityData();
             this.getAllEmails().then(emails => {
                 this._emailMessageCollection = emails;
+                this._emailLoadInProgress = false;
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
-                return emails;
+                return;
             }).catch(error => {
                 console.error("Error retrieving emails:", error);
             });
@@ -187,7 +195,8 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 Timeline, {
                 emailMessageCollection: this._emailMessageCollection,
                 context: this._context,
-                width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth - 8 + "px"
+                width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth - 8 + "px",
+                loading: this._emailLoadInProgress
             })
         );
     }

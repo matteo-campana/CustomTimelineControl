@@ -14,6 +14,7 @@ interface ITimelineProps {
     emailMessageCollection: ComponentFramework.WebApi.Entity[];
     context: ComponentFramework.Context<IInputs>;
     width: string;
+    loading: boolean;
 }
 
 const useStyles = makeStyles({
@@ -71,40 +72,29 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
     const [emails, setEmails] = React.useState<IEmailCardProps[]>([]);
-    const [loading, setLoading] = React.useState(true);
     const styles = useStyles();
 
-    if (props.context.parameters.DebugMode.raw === true) {
-        React.useEffect(() => {
-            setLoading(true);
-            const transformedEmails = generateEmailsFromJson();
-            setEmails(transformedEmails);
-            // setLoading(false);
-
-            setTimeout(() => {
-                setLoading(false);
-            }, 3000);
-        }, []); // Re-run effect when container size changes
-    } else {
-        React.useEffect(() => {
-            setLoading(true);
-            const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
-            setEmails(transformedEmails);
-            // setLoading(false);
-
-            setTimeout(() => {
-                setLoading(false);
-            }, 3000);
-        }, [props.emailMessageCollection]);
-    }
+    React.useEffect(() => {
+        if (props.loading) {
+            setEmails([]);
+        } else {
+            if (props.context.parameters.DebugMode.raw === true) {
+                const transformedEmails = generateEmailsFromJson();
+                setEmails(transformedEmails);
+            } else {
+                const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+                setEmails(transformedEmails);
+            }
+        }
+    }, [props.context.parameters.DebugMode.raw, props.emailMessageCollection, props.loading]);
 
     return (
         <div className={styles.main}
             style={{ width: `${props.width}` }}
         >
-            {loading ? (
+            {props.loading ? (
                 <Spinner appearance="primary" label="Loading parent case email messages..." />
-            ) : (loading === false && emails.length === 0) ? (
+            ) : (emails.length === 0) ? (
                 <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
                     There are no e-mails available for the parent case.
                 </Label>
@@ -121,7 +111,6 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                         modifiedOn={email.modifiedOn}
                         isVisualized={email.isVisualized}
                         emailId={email.emailId}
-                    //style={{ backgroundColor: index % 2 === 0 ? tokens.colorNeutralBackground1 : tokens.colorNeutralBackground1Pressed }}
                     />
                 ))
             )}
