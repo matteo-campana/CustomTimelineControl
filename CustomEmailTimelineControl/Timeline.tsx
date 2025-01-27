@@ -35,7 +35,7 @@ const useStyles = makeStyles({
 });
 
 const generateEmailsFromJson = (): IEmailCardProps[] => {
-    return sampleEmails.map((email: any) => {
+    const emails = sampleEmails.map((email: any) => {
         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
         return {
@@ -51,10 +51,11 @@ const generateEmailsFromJson = (): IEmailCardProps[] => {
             context: null as any as ComponentFramework.Context<IInputs>,
         };
     });
+    return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
 };
 
 const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
-    return emailMessages.map((email) => {
+    const emails = emailMessages.map((email) => {
         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
         return {
@@ -70,6 +71,7 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
             context: null as any as ComponentFramework.Context<IInputs>,
         };
     });
+    return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
 };
 
 const Timeline: React.FC<ITimelineProps> = (props) => {
