@@ -1,0 +1,23 @@
+<root>
+  <data name="EmailSubject" xml:space="preserve">
+    <value>Asunto</value>
+  </data>
+  <data name="EmailBody" xml:space="preserve">
+    <value>Cuerpo del correo electrónico</value>
+  </data>
+  <data name="EmailContent" xml:space="preserve">
+    <value>Contenido</value>
+  </data>
+  <data name="EmailModifiedOn" xml:space="preserve">
+    <value>Modificado el</value>
+  </data>
+  <data name="EmailOpenRecord" xml:space="preserve">
+    <value>Abrir Registro</value>
+  </data>
+  <data name="EmailShowMore" xml:space="preserve">
+    <value>Mostrar más</value>
+  </data>
+  <data name="EmailShowLess" xml:space="preserve">
+    <value>Mostrar menos</value>
+  </data>
+</root>

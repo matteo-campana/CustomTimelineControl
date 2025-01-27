@@ -38,6 +38,10 @@
       <css path="css/CustomEmailTimelineControl.css" order="1" />
       <resx path="strings/CustomEmailTimelineControl.1033.resx" version="1.0.0" />
       -->
+      <resx path="strings/CustomEmailTimelineControl.1033.resx" version="1.0.0" />
+      <resx path="strings/CustomEmailTimelineControl.1034.resx" version="1.0.0" />
+      <resx path="strings/CustomEmailTimelineControl.1036.resx" version="1.0.0" />
+      <resx path="strings/CustomEmailTimelineControl.1040.resx" version="1.0.0" />
     </resources>
     <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
     <feature-usage>

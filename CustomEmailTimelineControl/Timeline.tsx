@@ -48,6 +48,7 @@ const generateEmailsFromJson = (): IEmailCardProps[] => {
             modifiedOn: new Date(email.modifiedon),
             isVisualized: email.statuscode === 6,
             emailId: email.activityid,
+            context: null as any as ComponentFramework.Context<IInputs>,
         };
     });
 };
@@ -66,6 +67,7 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
             modifiedOn: new Date(email.modifiedon),
             isVisualized: email.statuscode === 6,
             emailId: email.activityid,
+            context: null as any as ComponentFramework.Context<IInputs>,
         };
     });
 };
@@ -95,10 +97,10 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
             style={{ width: `${props.width}` }}
         >
             {props.loading ? (
-                <Spinner appearance="primary" label="Loading parent case email messages..." />
+                <Spinner appearance="primary" label={props.context.resources.getString("Loading")} />
             ) : (emails.length === 0) ? (
                 <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
-                    There are no e-mails available for the parent case.
+                    {props.context.resources.getString("NoEmails")}
                 </Label>
             ) : (
                 emails.map((email, index) => (
@@ -113,6 +115,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                         modifiedOn={email.modifiedOn}
                         isVisualized={email.isVisualized}
                         emailId={email.emailId}
+                        context={props.context}
                     />
                 ))
             )}

@@ -19,9 +19,9 @@ import {
 import * as React from "react";
 
 import DOMPurify from 'dompurify';
-
-
 import { MoreHorizontal20Regular } from "@fluentui/react-icons";
+import { IInputs } from "./generated/ManifestTypes";
+
 
 export interface IEmailCardProps {
     emailId: string;
@@ -34,6 +34,7 @@ export interface IEmailCardProps {
     modifiedOn: Date;
     isVisualized: boolean;
     style?: React.CSSProperties; // Add style prop
+    context: ComponentFramework.Context<IInputs>;
 }
 
 const useStyles = makeStyles({
@@ -72,10 +73,10 @@ const useStyles = makeStyles({
 });
 
 export const EmailCard: React.FC<IEmailCardProps> = (props) => {
+    const t = (key: string) => props.context.resources.getString(key);
     const [isExpanded, setIsExpanded] = React.useState(false);
     const [isOverflowing, setIsOverflowing] = React.useState(false);
     const contentRef = React.useRef<HTMLDivElement>(null);
-
 
     React.useEffect(() => {
         if (contentRef.current) {
@@ -110,18 +111,15 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 }
                 header={
                     <Body1 className={styles.header}>
-                        <Text>From: {props.from}</Text>
-                        <Text>To: {props.to}</Text>
-                        <Text>Sent: {props.sent}</Text>
+                        <Text>{t('EmailFrom')}: {props.from}</Text>
+                        <Text>{t('EmailTo')}: {props.to}</Text>
+                        <Text>{t('EmailSent')}: {props.sent}</Text>
                     </Body1>
                 }
-                // description={
-
-                // }
                 action={
                     <Menu>
                         <MenuTrigger disableButtonEnhancement>
-                            <Tooltip content="More Options" relationship="label">
+                            <Tooltip content={t('EmailMoreOptions')} relationship="label">
                                 <MenuButton icon={<MoreHorizontal20Regular />} size="large" />
                             </Tooltip>
                         </MenuTrigger>
@@ -132,7 +130,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                                     const environmentUrl = window.location.href.split('/main.aspx?')[0];
                                     const appId = urlParams.get('appid');
                                     window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=email&id=${props.emailId}`, '_blank');
-                                }}>Open Record {`>`} </MenuItem>
+                                }}>{t('EmailOpenRecord')} {`>`} </MenuItem>
                             </MenuList>
                         </MenuPopover>
                     </Menu>
@@ -141,25 +139,25 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
 
             <div style={{ display: "flex", flexDirection: "column", padding: "8px" }}>
                 <div>
-                    <Caption1>Subject: </Caption1>
+                    <Caption1>{t('EmailSubject')}: </Caption1>
                     <Text>{props.subject}</Text>
                 </div>
-                <Caption1>Content: </Caption1>
+                <Caption1>{t('EmailContent')}: </Caption1>
                 <div
                     ref={contentRef}
                     className={isExpanded ? styles.expandedContent : styles.content}
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
-                        {isExpanded ? "Show Less" : "Show More"}
+                        {isExpanded ? t('EmailShowLess') : t('EmailShowMore')}
                     </ToggleButton>
                 )}
             </div>
 
             <CardFooter className={styles.footer} >
-                {/* <Text>Created On: {props.createdOn.toLocaleString()}</Text> */}
-                <Text>Modified On: {props.modifiedOn.toLocaleString()}</Text>
+                <Text>{t('EmailModifiedOn')}: {props.modifiedOn.toLocaleString()}</Text>
             </CardFooter>
         </Card>
     );
 };
+

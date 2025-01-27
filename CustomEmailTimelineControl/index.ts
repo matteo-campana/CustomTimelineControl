@@ -44,7 +44,6 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         if (context.parameters.DebugMode.raw == true) {
             setInterval(() => {
                 this._emailLoadInProgress = false;
-                console.log("Simulated loading complete");
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
                 this._context.factory.requestRender();
             }, 3000);
