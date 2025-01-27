@@ -46,6 +46,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 this._emailLoadInProgress = false;
                 console.log("Simulated loading complete");
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
+                this._context.factory.requestRender();
             }, 3000);
         }
 
@@ -55,6 +56,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 this._emailMessageCollection = emails;
                 this._emailLoadInProgress = false;
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
+                this._context.factory.requestRender();
                 return;
             }).catch(error => {
                 console.error("Error retrieving emails:", error);

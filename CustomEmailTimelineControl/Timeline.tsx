@@ -81,9 +81,11 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
             if (props.context.parameters.DebugMode.raw === true) {
                 const transformedEmails = generateEmailsFromJson();
                 setEmails(transformedEmails);
+                props.context.factory.requestRender();
             } else {
                 const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
                 setEmails(transformedEmails);
+                props.context.factory.requestRender();
             }
         }
     }, [props.context.parameters.DebugMode.raw, props.emailMessageCollection, props.loading]);
