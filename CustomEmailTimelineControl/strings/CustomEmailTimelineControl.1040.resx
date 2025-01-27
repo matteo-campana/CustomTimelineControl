@@ -129,4 +129,16 @@
   <data name="EmailShowLess" xml:space="preserve">
     <value>Mostra meno</value>
   </data>
+  <data name="EmailFrom" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="EmailTo" xml:space="preserve">
+    <value>A</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Inviato</value>
+  </data>
+  <data name="EmailMoreOptions" xml:space="preserve">
+    <value>Altre opzioni</value>
+  </data>
 </root>

@@ -129,4 +129,16 @@
   <data name="EmailBody" xml:space="preserve">
     <value>Corps de l'email</value>
   </data>
+  <data name="EmailFrom" xml:space="preserve">
+    <value>De</value>
+  </data>
+  <data name="EmailTo" xml:space="preserve">
+    <value>À</value>
+  </data>
+  <data name="EmailSent" xml:space="preserve">
+    <value>Envoyé</value>
+  </data>
+  <data name="EmailMoreOptions" xml:space="preserve">
+    <value>Plus d'options</value>
+  </data>
 </root>
