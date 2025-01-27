@@ -70,6 +70,9 @@ const useStyles = makeStyles({
         overflowY: "auto",
         wordWrap: "break-word",
     },
+    label: {
+        marginTop: "4px", // Add vertical margin to the label
+    },
 });
 
 export const EmailCard: React.FC<IEmailCardProps> = (props) => {
@@ -139,14 +142,16 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
 
             <div style={{ display: "flex", flexDirection: "column", padding: "8px" }}>
                 <div>
-                    <Caption1>{t('EmailSubject')}: </Caption1>
+                    <Caption1 className={styles.label}>{t('EmailSubject')}: </Caption1>
                     <Text>{props.subject}</Text>
+                </div><br />
+                <div>
+                    <Caption1 className={styles.label}>{t('EmailContent')}: </Caption1>
+                    <div
+                        ref={contentRef}
+                        className={isExpanded ? styles.expandedContent : styles.content}
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 </div>
-                <Caption1>{t('EmailContent')}: </Caption1>
-                <div
-                    ref={contentRef}
-                    className={isExpanded ? styles.expandedContent : styles.content}
-                    dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
                         {isExpanded ? t('EmailShowLess') : t('EmailShowMore')}

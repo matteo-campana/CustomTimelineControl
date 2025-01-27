@@ -41,7 +41,7 @@ const generateEmailsFromJson = (): IEmailCardProps[] => {
         return {
             from: fromParty ? fromParty.addressused : "unknown",
             sent: new Date(email.createdon).toLocaleString(),
-            to: toParty ? toParty.addressused : "unknown",
+            to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
             subject: email.subject,
             content: email.description,
             createdOn: new Date(email.createdon),
@@ -60,7 +60,7 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
         return {
             from: fromParty ? fromParty.addressused : "unknown",
             sent: new Date(email.createdon).toLocaleString(),
-            to: toParty ? toParty.addressused : "unknown",
+            to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
             subject: email.subject,
             content: email.description,
             createdOn: new Date(email.createdon),

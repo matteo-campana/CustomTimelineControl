@@ -141,4 +141,7 @@
   <data name="EmailMoreOptions" xml:space="preserve">
     <value>Altre opzioni</value>
   </data>
+  <data name="NoEmails" xml:space="preserve">
+    <value>Nessuna email</value>
+  </data>
 </root>
