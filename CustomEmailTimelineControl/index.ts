@@ -14,6 +14,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     private _context: ComponentFramework.Context<IInputs>;
     private _emailMessageCollection: ComponentFramework.WebApi.Entity[];
     private _emailLoadInProgress: boolean = true;
+    private _state: ComponentFramework.Dictionary;
 
     /**
      * Empty constructor.
@@ -34,13 +35,18 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     ): void {
         this.notifyOutputChanged = notifyOutputChanged;
         this._context = context;
+        this._state = state;
 
         this._emailMessageCollection = [];
         this._emailLoadInProgress = true;
 
         // Check if we are in debug mode and set a timer to simulate loading
-        if(context.parameters.DebugMode.raw == true) {
-            this._emailLoadInProgress = false;
+        if (context.parameters.DebugMode.raw == true) {
+            setInterval(() => {
+                this._emailLoadInProgress = false;
+                console.log("Simulated loading complete");
+                this.notifyOutputChanged(); // Notify the framework that the data has changed
+            }, 3000);
         }
 
         if (context.parameters.DebugMode.raw == false) {
@@ -207,7 +213,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      */
     public getOutputs(): IOutputs {
         return {
-            emailMessageCollection: this._emailMessageCollection,
+            emailMessageCollection: JSON.stringify(this._emailMessageCollection),
             loading: this._emailLoadInProgress
         };
     }
