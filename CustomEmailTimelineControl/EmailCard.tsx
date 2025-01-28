@@ -204,7 +204,7 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 </div>
 
                 {props.attachments.length > 0 ? (
-                    <div>
+                    <div style={{ marginBottom: "4px", marginTop: "4px" }}>
                         <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
                         <AttachmentMenu attachments={props.attachments} />
                     </div>
