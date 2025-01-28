@@ -102,8 +102,37 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
         </fetch>
         `;
 
-    const query = `?fetchXml=${fetchXml}`
-    return context.webAPI.retrieveMultipleRecords("email", query).then(
+    const filterValuesAttachments = ancestors.map((ancestor) => {
+        return `<value>` + ancestor + `</value>`;
+    }).join('');
+
+    const emailAttachmentFetchXml = `
+        <fetch version="1.0" output-format="xml-platform" mapping="logical">
+            <entity name="email">
+                <attribute name="activityid" />
+                <filter>
+                <condition attribute="regardingobjectid" operator="in" uitype="incident">
+                    ${filterValuesAttachments}
+                </condition>
+                </filter>
+                <order attribute="createdon" descending="true" />
+                <link-entity name="activitymimeattachment" from="objectid" to="activityid" alias="activitymimeattachment">
+                <attribute name="attachmentid" />
+                <link-entity name="attachment" from="attachmentid" to="attachmentid" alias="attachment">
+                    <attribute name="attachmentid" />
+                    <attribute name="filename" />
+                    <attribute name="filesize" />
+                    <attribute name="mimetype" />
+                </link-entity>
+                </link-entity>
+            </entity>
+        </fetch>
+    `
+
+
+
+    const emailFetchQuery = `?fetchXml=${fetchXml}`;
+    const retrievedEmails = await context.webAPI.retrieveMultipleRecords("email", emailFetchQuery).then(
         (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
             console.log("Emails retrieved:", response.entities);
             console.table(response.entities);
@@ -114,6 +143,33 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
             return [];
         }
     );
+
+    const attachmentsFetchQuery = `?fetchXml=${emailAttachmentFetchXml}`;
+    const emailsWithAttachments = await context.webAPI.retrieveMultipleRecords("email", attachmentsFetchQuery).then(
+        (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
+            console.log("Emails with attachments retrieved:", response.entities);
+            console.table(response.entities);
+            return response.entities;
+        },
+        (errorResponse) => {
+            console.error("Error retrieving emails with attachments:", errorResponse);
+            return [];
+        }
+    );
+
+    // Merge attachments into emails
+    retrievedEmails.forEach(email => {
+        email.attachments = emailsWithAttachments
+            .filter(attachedEmail => attachedEmail.activityid === email.activityid)
+            .map(attachedEmail => ({
+                attachmentid: attachedEmail["activitymimeattachment.attachmentid"],
+                filename: attachedEmail["attachment.filename"],
+                filesize: attachedEmail["attachment.filesize"],
+                mimetype: attachedEmail["attachment.mimetype"]
+            }));
+    });
+
+    return retrievedEmails;
 }
 
 export const generateEmailsFromJson = (): IEmailCardProps[] => {
@@ -130,6 +186,7 @@ export const generateEmailsFromJson = (): IEmailCardProps[] => {
             modifiedOn: new Date(email.modifiedon),
             isVisualized: email.statuscode === 6,
             emailId: email.activityid,
+            attachments: email.attachments || [],
             context: null as any as ComponentFramework.Context<IInputs>,
         };
     });

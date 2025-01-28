@@ -14,7 +14,13 @@ import {
     MenuTrigger,
     Text,
     ToggleButton,
-    Tooltip
+    Tooltip,
+    Overflow,
+    OverflowItem,
+    useIsOverflowItemVisible,
+    useOverflowMenu,
+    OverflowItemProps,
+    Button,
 } from "@fluentui/react-components";
 import * as React from "react";
 
@@ -35,6 +41,7 @@ export interface IEmailCardProps {
     isVisualized: boolean;
     style?: React.CSSProperties; // Add style prop
     context: ComponentFramework.Context<IInputs>;
+    attachments: { attachmentid: string, filename: string, filesize: number, mimetype: string }[]; // Update attachments prop
 }
 
 const useStyles = makeStyles({
@@ -73,7 +80,47 @@ const useStyles = makeStyles({
     label: {
         marginTop: "4px", // Add vertical margin to the label
     },
+    container: {
+        display: "flex",
+        gap: "4px",
+        flexWrap: "wrap",
+    },
 });
+
+const OverflowMenuItem: React.FC<Pick<OverflowItemProps, "id">> = (props) => {
+    const { id } = props;
+    const isVisible = useIsOverflowItemVisible(id);
+
+    if (isVisible) {
+        return null;
+    }
+
+    return <MenuItem>{id}</MenuItem>;
+};
+
+const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
+    const { ref, overflowCount, isOverflowing } = useOverflowMenu<HTMLButtonElement>();
+
+    if (!isOverflowing) {
+        return null;
+    }
+
+    return (
+        <Menu>
+            <MenuTrigger disableButtonEnhancement>
+                <MenuButton ref={ref}>+{overflowCount} items</MenuButton>
+            </MenuTrigger>
+
+            <MenuPopover>
+                <MenuList>
+                    {itemIds.map((i) => {
+                        return <OverflowMenuItem key={i} id={i} />;
+                    })}
+                </MenuList>
+            </MenuPopover>
+        </Menu>
+    );
+};
 
 export const EmailCard: React.FC<IEmailCardProps> = (props) => {
     const t = (key: string) => props.context.resources.getString(key);
@@ -157,6 +204,19 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         {isExpanded ? t('EmailShowLess') : t('EmailShowMore')}
                     </ToggleButton>
                 )}
+                <div>
+                    <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
+                    <Overflow>
+                        <div className={styles.container}>
+                            {props.attachments.slice(0, 3).map((attachment, index) => (
+                                <OverflowItem key={index} id={attachment.attachmentid}>
+                                    <Button>{attachment.filename}</Button>
+                                </OverflowItem>
+                            ))}
+                            <OverflowMenu itemIds={props.attachments.slice(3).map(att => att.attachmentid)} />
+                        </div>
+                    </Overflow>
+                </div>
             </div>
 
             <CardFooter className={styles.footer} >

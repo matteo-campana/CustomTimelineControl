@@ -49,6 +49,7 @@ const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Enti
             isVisualized: email.statuscode === 6,
             emailId: email.activityid,
             context: null as any as ComponentFramework.Context<IInputs>,
+            attachments: email.attachments || [],
         };
     });
     return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
@@ -98,6 +99,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                         isVisualized={email.isVisualized}
                         emailId={email.emailId}
                         context={props.context}
+                        attachments={email.attachments}
                     />
                 ))
             )}
