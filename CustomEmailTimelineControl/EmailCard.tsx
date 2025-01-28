@@ -25,7 +25,7 @@ import {
 import * as React from "react";
 
 import DOMPurify from 'dompurify';
-import { MoreHorizontal20Regular } from "@fluentui/react-icons";
+import { AttachText20Regular, MoreHorizontal20Regular } from "@fluentui/react-icons";
 import { IInputs } from "./generated/ManifestTypes";
 
 
@@ -199,24 +199,30 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         className={isExpanded ? styles.expandedContent : styles.content}
                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 </div>
+
+                {props.attachments.length > 0 ? <div>
+                    <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
+                    <Overflow padding={4}>
+                        <div className={styles.container}>
+                            {props.attachments.slice(0, 3).map((attachment, index) => (
+                                <OverflowItem key={index} id={attachment.attachmentid}>
+                                    <Button><AttachText20Regular /> {attachment.filename}</Button>
+                                </OverflowItem>
+                            ))}
+                            <OverflowMenu 
+                            itemIds={props.attachments.slice(3).map(att => att.attachmentid)} 
+                            key={props.attachments.slice(3).map(att => att.attachmentid).join('')} />
+                        </div>
+                    </Overflow>
+                </div> : <></>}
+
+
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
                         {isExpanded ? t('EmailShowLess') : t('EmailShowMore')}
                     </ToggleButton>
                 )}
-                <div>
-                    <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
-                    <Overflow>
-                        <div className={styles.container}>
-                            {props.attachments.slice(0, 3).map((attachment, index) => (
-                                <OverflowItem key={index} id={attachment.attachmentid}>
-                                    <Button>{attachment.filename}</Button>
-                                </OverflowItem>
-                            ))}
-                            <OverflowMenu itemIds={props.attachments.slice(3).map(att => att.attachmentid)} />
-                        </div>
-                    </Overflow>
-                </div>
+
             </div>
 
             <CardFooter className={styles.footer} >

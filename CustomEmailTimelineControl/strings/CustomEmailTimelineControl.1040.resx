@@ -144,4 +144,7 @@
   <data name="NoEmails" xml:space="preserve">
     <value>Nessuna email</value>
   </data>
+  <data name="EmailAttachments" xml:space="preserve">
+    <value>Allegati</value>
+  </data>
 </root>

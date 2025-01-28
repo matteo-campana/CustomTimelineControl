@@ -32,6 +32,9 @@
   <data name="EmailMoreOptions" xml:space="preserve">
     <value>Más opciones</value>
   </data>
+  <data name="EmailAttachments" xml:space="preserve">
+    <value>Archivos adjuntos</value>
+  </data>
   <data name="NoEmails" xml:space="preserve">
     <value>No hay correos electrónicos</value>
   </data>

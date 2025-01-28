@@ -138,6 +138,9 @@
   <data name="EmailMoreOptions" xml:space="preserve">
     <value>More Options</value>
   </data>
+  <data name="EmailAttachments" xml:space="preserve">
+    <value>Attachments</value>
+  </data>
   <data name="NoEmails" xml:space="preserve">
     <value>No Emails</value>
   </data>
