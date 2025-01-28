@@ -2,6 +2,7 @@
 import { IEmailCardProps } from "../EmailCard";
 import { IInputs } from "../generated/ManifestTypes";
 import sampleEmails from "../sample_email.json";
+import {IEmailCardAttachment} from "../EmailCard";
 
 export async function getIncidentEntityData(context: ComponentFramework.Context<IInputs>, incidentId: string): Promise<ComponentFramework.WebApi.Entity | null> {
     incidentId = incidentId.replace("{", "").replace("}", "");
@@ -162,14 +163,41 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
         email.attachments = emailsWithAttachments
             .filter(attachedEmail => attachedEmail.activityid === email.activityid)
             .map(attachedEmail => ({
-                attachmentid: attachedEmail["activitymimeattachment.attachmentid"],
-                filename: attachedEmail["attachment.filename"],
-                filesize: attachedEmail["attachment.filesize"],
-                mimetype: attachedEmail["attachment.mimetype"]
-            }));
+            attachmentid: attachedEmail["activitymimeattachment.attachmentid"],
+            filename: attachedEmail["attachment.filename"],
+            filesize: attachedEmail["attachment.filesize"],
+            mimetype: attachedEmail["attachment.mimetype"],
+            context: context,
+            } as IEmailCardAttachment));
     });
 
+    console.log("Emails with attachments merged:", retrievedEmails);
+
+    console.table(retrievedEmails);
+
     return retrievedEmails;
+}
+
+export async function getAttachmentBody(emailAttachment : IEmailCardAttachment): Promise<ArrayBuffer> {
+    const fetchXml = `
+        <fetch version="1.0" output-format="xml-platform" mapping="logical">
+            <entity name="attachment">
+                <attribute name="body" />
+                <filter>
+                    <condition attribute="attachmentid" operator="eq" value="${emailAttachment.attachmentid}" />
+                </filter>
+            </entity>
+        </fetch>
+    `;
+
+    const query = `?fetchXml=${fetchXml}`;
+    const response = await emailAttachment.context.webAPI.retrieveMultipleRecords("attachment", query);
+    if (response.entities.length > 0) {
+        const body = response.entities[0].body;
+        return Uint8Array.from(atob(body), c => c.charCodeAt(0)).buffer;
+    } else {
+        throw new Error("Attachment not found");
+    }
 }
 
 export const generateEmailsFromJson = (): IEmailCardProps[] => {

@@ -15,19 +15,23 @@ import {
     Text,
     ToggleButton,
     Tooltip,
-    Overflow,
-    OverflowItem,
     useIsOverflowItemVisible,
-    useOverflowMenu,
-    OverflowItemProps,
-    Button,
+    useOverflowMenu
 } from "@fluentui/react-components";
 import * as React from "react";
 
-import DOMPurify from 'dompurify';
 import { AttachText20Regular, MoreHorizontal20Regular } from "@fluentui/react-icons";
+import DOMPurify from 'dompurify';
+import { AttachmentMenu } from "./AttachmentMenu";
 import { IInputs } from "./generated/ManifestTypes";
 
+export interface IEmailCardAttachment {
+    attachmentid: string;
+    filename: string;
+    filesize: number;
+    mimetype: string;
+    context: ComponentFramework.Context<IInputs>;
+}
 
 export interface IEmailCardProps {
     emailId: string;
@@ -41,7 +45,7 @@ export interface IEmailCardProps {
     isVisualized: boolean;
     style?: React.CSSProperties; // Add style prop
     context: ComponentFramework.Context<IInputs>;
-    attachments: { attachmentid: string, filename: string, filesize: number, mimetype: string }[]; // Update attachments prop
+    attachments: IEmailCardAttachment[]; // Update attachments prop
 }
 
 const useStyles = makeStyles({
@@ -87,18 +91,17 @@ const useStyles = makeStyles({
     },
 });
 
-const OverflowMenuItem: React.FC<Pick<OverflowItemProps, "id">> = (props) => {
-    const { id } = props;
-    const isVisible = useIsOverflowItemVisible(id);
+const OverflowMenuItem: React.FC<{ attachment: IEmailCardAttachment }> = ({ attachment }) => {
+    const isVisible = useIsOverflowItemVisible(attachment.attachmentid);
 
     if (isVisible) {
         return null;
     }
 
-    return <MenuItem>{id}</MenuItem>;
+    return <MenuItem><AttachText20Regular /> {attachment.filename}</MenuItem>;
 };
 
-const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
+const OverflowMenu: React.FC<{ attachments: IEmailCardAttachment[] }> = ({ attachments }) => {
     const { ref, overflowCount, isOverflowing } = useOverflowMenu<HTMLButtonElement>();
 
     if (!isOverflowing) {
@@ -113,9 +116,9 @@ const OverflowMenu: React.FC<{ itemIds: string[] }> = ({ itemIds }) => {
 
             <MenuPopover>
                 <MenuList>
-                    {itemIds.map((i) => {
-                        return <OverflowMenuItem key={i} id={i} />;
-                    })}
+                    {attachments.map((attachment) => (
+                        <OverflowMenuItem key={attachment.attachmentid} attachment={attachment} />
+                    ))}
                 </MenuList>
             </MenuPopover>
         </Menu>
@@ -200,22 +203,12 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(props.content) }} />
                 </div>
 
-                {props.attachments.length > 0 ? <div>
-                    <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
-                    <Overflow padding={4}>
-                        <div className={styles.container}>
-                            {props.attachments.slice(0, 3).map((attachment, index) => (
-                                <OverflowItem key={index} id={attachment.attachmentid}>
-                                    <Button><AttachText20Regular /> {attachment.filename}</Button>
-                                </OverflowItem>
-                            ))}
-                            <OverflowMenu 
-                            itemIds={props.attachments.slice(3).map(att => att.attachmentid)} 
-                            key={props.attachments.slice(3).map(att => att.attachmentid).join('')} />
-                        </div>
-                    </Overflow>
-                </div> : <></>}
-
+                {props.attachments.length > 0 ? (
+                    <div>
+                        <Caption1 className={styles.label}>{t('EmailAttachments')}: </Caption1>
+                        <AttachmentMenu attachments={props.attachments} />
+                    </div>
+                ) : null}
 
                 {isOverflowing && (
                     <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
