@@ -4,6 +4,7 @@ import { Timeline } from './Timeline';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import { getCurrentEntityData, getIncidentEntityData, getAllEmails } from './services/emailService';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class CustomEmailTimelineControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -50,142 +51,21 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         }
 
         if (context.parameters.DebugMode.raw == false) {
-            this.getCurrentEntityData();
-            this.getAllEmails().then(emails => {
-                this._emailMessageCollection = emails;
-                this._emailLoadInProgress = false;
-                this.notifyOutputChanged(); // Notify the framework that the data has changed
-                this._context.factory.requestRender();
-                return;
-            }).catch(error => {
-                console.error("Error retrieving emails:", error);
-            });
+            getCurrentEntityData(this._context)
+                .then(() => getAllEmails(this._context))
+                .then(emails => {
+                    this._emailMessageCollection = emails;
+                    this._emailLoadInProgress = false;
+                    this.notifyOutputChanged(); // Notify the framework that the data has changed
+                    this._context.factory.requestRender();
+                    return emails;
+                })
+                .catch(error => {
+                    console.error("Error retrieving emails:", error);
+                });
         }
 
         this._context.mode.trackContainerResize(true);
-    }
-
-    private getIncidentEntityData(incidentId: string): Promise<ComponentFramework.WebApi.Entity | null> {
-        incidentId = incidentId.replace("{", "").replace("}", "");
-        return this._context.webAPI.retrieveRecord("incident", incidentId, "?$select=incidentid,_parentcaseid_value").then(
-            (response) => {
-                return response;
-            },
-            (errorResponse) => {
-                console.error("Error retrieving parent case ID:", errorResponse);
-                return null;
-            }
-        );
-    }
-
-    private getCurrentEntityData(): Promise<ComponentFramework.WebApi.Entity | null> {
-
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let entityId = (this._context.mode as any).contextInfo.entityId;
-        entityId = entityId.replace("{", "").replace("}", "");
-
-        return this._context.webAPI.retrieveRecord("incident", entityId, "?$select=incidentid,_parentcaseid_value").then(
-            (response) => {
-                // console.log("Parent case ID retrieved:", response);
-                // console.table(response);
-                return response;
-            },
-            (errorResponse) => {
-                console.error("Error retrieving parent case ID:", errorResponse);
-                // alert("Error retrieving parent case ID: " + errorResponse);
-                return null;
-            }
-        );
-    }
-
-    /**
-     * Retrieves all emails.
-     * @returns Promise resolving to an array of email records.
-     */
-    private async getAllEmails(): Promise<ComponentFramework.WebApi.Entity[]> {
-        const collectCurrent = this._context.parameters.CollectCurrentRecordEmails.raw;
-        const collectParent = this._context.parameters.CollectParentEmails.raw;
-        const collectAncestors = this._context.parameters.CollectAncestorEmails.raw;
-
-        let ancestors = await this.getCurrentEntityData().then(async (entity) => {
-            if (entity) {
-                const ancestorIds = [];
-                if (collectCurrent) {
-                    ancestorIds.push(entity.incidentid);
-                }
-                if (collectParent && entity._parentcaseid_value) {
-                    ancestorIds.push(entity._parentcaseid_value);
-                }
-                if (collectAncestors) {
-                    // Add logic to fetch all ancestor IDs
-                    if (entity._parentcaseid_value) {
-                        ancestorIds.push(entity._parentcaseid_value);
-
-                        let currentParentId = entity._parentcaseid_value;
-
-                        while (currentParentId) {
-                            const parentEntity = await this.getIncidentEntityData(currentParentId);
-                            if (parentEntity && parentEntity._parentcaseid_value) {
-                                currentParentId = parentEntity._parentcaseid_value;
-                                ancestorIds.push(currentParentId);
-                            } else {
-                                currentParentId = null;
-                            }
-                        }
-                    }
-
-                }
-                return ancestorIds;
-            } else {
-                return [];
-            }
-        });
-
-        ancestors = Array.from(new Set(ancestors));
-
-        if (ancestors.length === 0) {
-            return [];
-        }
-
-        const filterValues = ancestors.map((ancestor) => {
-            return `<value uitype="incident">` + ancestor + `</value>`;
-        }).join('');
-
-        const fetchXml = `
-            <fetch version="1.0" output-format="xml-platform" mapping="logical">
-                <entity name="email">
-                    <attribute name="subject" />
-                    <order attribute="subject" descending="false" />
-                    <attribute name="description" />
-                    <attribute name="regardingobjectid" />
-                    <attribute name="from" />
-                    <attribute name="to" />
-                    <attribute name="statuscode" />
-                    <attribute name="createdon" />
-                    <attribute name="modifiedon" />
-                    <attribute name="activityid" />
-                    <filter type="and">
-                        <condition attribute="regardingobjectid" operator="in">
-                            ${filterValues}
-                        </condition>
-                    </filter>
-                </entity>
-            </fetch>
-            `;
-
-        const query = `?fetchXml=${fetchXml}`
-        return this._context.webAPI.retrieveMultipleRecords("email", query).then(
-            (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
-                console.log("Emails retrieved:", response.entities);
-                console.table(response.entities);
-                return response.entities;
-            },
-            (errorResponse) => {
-                console.error("Error retrieving emails:", errorResponse);
-                // alert("Error retrieving emails: " + errorResponse);
-                return [];
-            }
-        );
     }
 
     /**

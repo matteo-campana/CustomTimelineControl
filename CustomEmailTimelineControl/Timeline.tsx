@@ -7,7 +7,7 @@ import {
 import * as React from "react";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import { IInputs } from "./generated/ManifestTypes";
-import sampleEmails from "./sample_email.json";
+import { generateEmailsFromJson } from './services/emailService';
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
@@ -33,26 +33,6 @@ const useStyles = makeStyles({
         marginBottom: "4px",
     },
 });
-
-const generateEmailsFromJson = (): IEmailCardProps[] => {
-    const emails = sampleEmails.map((email: any) => {
-        const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
-        const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
-        return {
-            from: fromParty ? fromParty.addressused : "unknown",
-            sent: new Date(email.createdon).toLocaleString(),
-            to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
-            subject: email.subject,
-            content: email.description,
-            createdOn: new Date(email.createdon),
-            modifiedOn: new Date(email.modifiedon),
-            isVisualized: email.statuscode === 6,
-            emailId: email.activityid,
-            context: null as any as ComponentFramework.Context<IInputs>,
-        };
-    });
-    return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
-};
 
 const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
     const emails = emailMessages.map((email) => {
