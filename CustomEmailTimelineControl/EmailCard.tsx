@@ -155,11 +155,11 @@ export const EmailCard: React.FC<IEmailCardProps> = (props) => {
                 image={
                     <Avatar
                         aria-label="avatar"
-                        name={props.from.toUpperCase()}
+                        name={props?.from?.toUpperCase() || "?"}
                         size={48}
                         shape="circular"
                         color="brand"
-                        initials={props.from.split('@')[0].split('.').map(name => name[0].toUpperCase()).join('')}
+                        initials={props.from ? props.from.split('@')[0]?.split('.').map(name => name[0]?.toUpperCase()).join('') || "?" : "?"}
                     />
                 }
                 header={

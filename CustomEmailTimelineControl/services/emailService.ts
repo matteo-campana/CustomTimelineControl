@@ -2,7 +2,7 @@
 import { IEmailCardProps } from "../EmailCard";
 import { IInputs } from "../generated/ManifestTypes";
 import sampleEmails from "../sample_email.json";
-import {IEmailCardAttachment} from "../EmailCard";
+import { IEmailCardAttachment } from "../EmailCard";
 
 export async function getIncidentEntityData(context: ComponentFramework.Context<IInputs>, incidentId: string): Promise<ComponentFramework.WebApi.Entity | null> {
     incidentId = incidentId.replace("{", "").replace("}", "");
@@ -163,11 +163,11 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
         email.attachments = emailsWithAttachments
             .filter(attachedEmail => attachedEmail.activityid === email.activityid)
             .map(attachedEmail => ({
-            attachmentid: attachedEmail["activitymimeattachment.attachmentid"],
-            filename: attachedEmail["attachment.filename"],
-            filesize: attachedEmail["attachment.filesize"],
-            mimetype: attachedEmail["attachment.mimetype"],
-            context: context,
+                attachmentid: attachedEmail["activitymimeattachment.attachmentid"],
+                filename: attachedEmail["attachment.filename"],
+                filesize: attachedEmail["attachment.filesize"],
+                mimetype: attachedEmail["attachment.mimetype"],
+                context: context,
             } as IEmailCardAttachment));
     });
 
@@ -178,7 +178,7 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
     return retrievedEmails;
 }
 
-export async function getAttachmentBody(emailAttachment : IEmailCardAttachment): Promise<ArrayBuffer> {
+export async function getAttachmentBody(emailAttachment: IEmailCardAttachment): Promise<ArrayBuffer> {
     const fetchXml = `
         <fetch version="1.0" output-format="xml-platform" mapping="logical">
             <entity name="attachment">
@@ -205,7 +205,7 @@ export const generateEmailsFromJson = (): IEmailCardProps[] => {
         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
         return {
-            from: fromParty ? fromParty.addressused : "unknown",
+            from: fromParty ? (fromParty.addressused || fromParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
             sent: new Date(email.createdon).toLocaleString(),
             to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
             subject: email.subject,
