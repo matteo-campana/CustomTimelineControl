@@ -29,12 +29,12 @@ export interface IChatMessageProps {
 }
 
 const useStyles = makeStyles({
-    
 });
 
 export const ChatMessage: React.FC<IChatMessageProps> = (props) => {
-    
+    const classes = useStyles();
+
     return (
-        <>TEST</>
+        <></>
     );
 };

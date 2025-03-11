@@ -27,11 +27,12 @@ export interface IChatCardProps {
 }
 
 const useStyles = makeStyles({
-
 });
 
 export const ChatCard: React.FC<IChatCardProps> = (props) => {
+    const classes = useStyles();
+
     return (
-        <>TEST</>
+        <></>
     );
 };

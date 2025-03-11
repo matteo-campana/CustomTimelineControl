@@ -1,5 +1,7 @@
 import { IInputs } from "../generated/ManifestTypes";
 import sampleData from "../sample-whatsapp-chat.json";
+import { IChatCardProps } from "../chat/ChatCard";
+import { IChatMessageProps } from "../chat/ChatMessage";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDocumentBodyContent(base64String: string): any {
@@ -64,4 +66,45 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
     // console.log("WhatsApp chats (test) retrieved:", entities);
     console.table(entities);
     return entities;
+}
+
+export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.Entity[]): IChatCardProps[] {
+    return entities.map(entity => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const chatMessages: IChatMessageProps[] = (entity["annotation.documentbody"] || []).map((message: any) => ({
+            context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available
+            created: message.created,
+            isControlMessage: message.isControlMessage,
+            content: message.content,
+            createdDateTime: message.createdDateTime,
+            deleted: message.deleted,
+            id: message.id,
+            contentType: message.contentType,
+            from: message.from,
+            attachments: message.attachments,
+            tags: message.tags,
+            deliveryMode: message.deliveryMode,
+            fromUserId: message.fromUserId,
+            isBridged: message.isBridged,
+        }));
+
+        return {
+            context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available
+            chatMessages: chatMessages,
+            etag: entity["@odata.etag"],
+            subject: entity["subject"],
+            activityid: entity["activityid"],
+            title: entity["msdyn_title"],
+            createdOnFormatted: new Date(entity["msdyn_createdon"]).toLocaleString(),
+            createdOn: entity["msdyn_createdon"],
+            channelFormatted: entity["msdyn_channel"],
+            channel: entity["msdyn_channel"],
+            annotationIdAttribute: "annotationid",
+            annotationId: entity["annotation.annotationid"],
+            documentBodyAttribute: "documentbody",
+            documentBody: entity["annotation.documentbody"],
+            filenameAttribute: "filename",
+            filename: entity["annotation.filename"],
+        };
+    });
 }
