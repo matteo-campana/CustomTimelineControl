@@ -1,0 +1,131 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "@@odata.etag": {
+                "type": "string"
+            },
+            "subject": {
+                "type": "string"
+            },
+            "activityid": {
+                "type": "string"
+            },
+            "msdyn_title": {
+                "type": "string"
+            },
+            "msdyn_createdon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "msdyn_createdon": {
+                "type": "string"
+            },
+            "msdyn_channel@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "msdyn_channel": {
+                "type": "string"
+            },
+            "annotation.annotationid@OData.Community.Display.V1.AttributeName": {
+                "type": "string"
+            },
+            "annotation.annotationid": {
+                "type": "string"
+            },
+            "annotation.documentbody@OData.Community.Display.V1.AttributeName": {
+                "type": "string"
+            },
+            "annotation.documentbody": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "created": {
+                            "type": "string"
+                        },
+                        "isControlMessage": {
+                            "type": "boolean"
+                        },
+                        "content": {
+                            "type": "string"
+                        },
+                        "createdDateTime": {
+                            "type": "string"
+                        },
+                        "deleted": {
+                            "type": "boolean"
+                        },
+                        "id": {
+                            "type": "string"
+                        },
+                        "contentType": {
+                            "type": "string"
+                        },
+                        "from": {
+                            "type": "object",
+                            "properties": {
+                                "application": {
+                                    "type": "object",
+                                    "properties": {
+                                        "displayName": {
+                                            "type": "string"
+                                        },
+                                        "id": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "attachments": {
+                            "type": "array"
+                        },
+                        "tags": {
+                            "type": "string"
+                        },
+                        "deliveryMode": {
+                            "type": "string"
+                        },
+                        "fromUserId": {
+                            "type": "string"
+                        },
+                        "isBridged": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "created",
+                        "isControlMessage",
+                        "content",
+                        "createdDateTime",
+                        "deleted",
+                        "id"
+                    ]
+                }
+            },
+            "annotation.filename@OData.Community.Display.V1.AttributeName": {
+                "type": "string"
+            },
+            "annotation.filename": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "@@odata.etag",
+            "subject",
+            "activityid",
+            "msdyn_title",
+            "msdyn_createdon@OData.Community.Display.V1.FormattedValue",
+            "msdyn_createdon",
+            "msdyn_channel@OData.Community.Display.V1.FormattedValue",
+            "msdyn_channel",
+            "annotation.annotationid@OData.Community.Display.V1.AttributeName",
+            "annotation.annotationid",
+            "annotation.documentbody@OData.Community.Display.V1.AttributeName",
+            "annotation.documentbody",
+            "annotation.filename@OData.Community.Display.V1.AttributeName",
+            "annotation.filename"
+        ]
+    }
+}

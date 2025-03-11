@@ -1,0 +1,181 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "@@odata.etag": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "createdon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "createdon": {
+                "type": "string"
+            },
+            "activityid": {
+                "type": "string"
+            },
+            "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
+                "type": "string"
+            },
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string"
+            },
+            "_regardingobjectid_value": {
+                "type": "string"
+            },
+            "statuscode@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "statuscode": {
+                "type": "integer"
+            },
+            "subject": {
+                "type": "string"
+            },
+            "safedescription": {
+                "type": "string"
+            },
+            "modifiedon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "modifiedon": {
+                "type": "string"
+            },
+            "email_activity_parties": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "@@odata.etag": {
+                            "type": "string"
+                        },
+                        "donotphone@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotphone": {
+                            "type": "boolean"
+                        },
+                        "instancetypecode@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "instancetypecode": {
+                            "type": "integer"
+                        },
+                        "donotfax@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotfax": {
+                            "type": "boolean"
+                        },
+                        "ispartydeleted@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "ispartydeleted": {
+                            "type": "boolean"
+                        },
+                        "activitypartyid": {
+                            "type": "string"
+                        },
+                        "_partyid_value@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "_partyid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
+                            "type": "string"
+                        },
+                        "_partyid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                            "type": "string"
+                        },
+                        "_partyid_value": {
+                            "type": "string"
+                        },
+                        "donotemail@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotemail": {
+                            "type": "boolean"
+                        },
+                        "_activityid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
+                            "type": "string"
+                        },
+                        "_activityid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                            "type": "string"
+                        },
+                        "_activityid_value": {
+                            "type": "string"
+                        },
+                        "participationtypemask@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "participationtypemask": {
+                            "type": "integer"
+                        },
+                        "donotpostalmail@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotpostalmail": {
+                            "type": "boolean"
+                        },
+                        "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                            "type": "string"
+                        },
+                        "_ownerid_value": {
+                            "type": "string"
+                        },
+                        "addressusedemailcolumnnumber@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "addressusedemailcolumnnumber": {
+                            "type": "integer"
+                        },
+                        "addressused": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "@@odata.etag",
+                        "instancetypecode@OData.Community.Display.V1.FormattedValue",
+                        "instancetypecode",
+                        "ispartydeleted@OData.Community.Display.V1.FormattedValue",
+                        "ispartydeleted",
+                        "activitypartyid",
+                        "_partyid_value@OData.Community.Display.V1.FormattedValue",
+                        "_partyid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+                        "_partyid_value",
+                        "_activityid_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
+                        "_activityid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+                        "_activityid_value",
+                        "participationtypemask@OData.Community.Display.V1.FormattedValue",
+                        "participationtypemask",
+                        "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+                        "_ownerid_value"
+                    ]
+                }
+            }
+        },
+        "required": [
+            "@@odata.etag",
+            "description",
+            "createdon@OData.Community.Display.V1.FormattedValue",
+            "createdon",
+            "activityid",
+            "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue",
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+            "_regardingobjectid_value",
+            "statuscode@OData.Community.Display.V1.FormattedValue",
+            "statuscode",
+            "subject",
+            "safedescription",
+            "modifiedon@OData.Community.Display.V1.FormattedValue",
+            "modifiedon",
+            "email_activity_parties"
+        ]
+    }
+}
