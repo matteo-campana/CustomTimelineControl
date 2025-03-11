@@ -12,6 +12,7 @@ import { generateEmailsFromJson } from './services/emailService';
 // Define the ITimelineProps interface
 interface ITimelineProps {
     emailMessageCollection: ComponentFramework.WebApi.Entity[];
+    whatsAppChatCollection: ComponentFramework.WebApi.Entity[];
     context: ComponentFramework.Context<IInputs>;
     width: string;
     loading: boolean;

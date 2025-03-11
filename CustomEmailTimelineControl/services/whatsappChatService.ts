@@ -4,7 +4,12 @@ import sampleData from "../sample-whatsapp-chat.json";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDocumentBodyContent(base64String: string): any {
     const decodedString = atob(base64String);
-    return JSON.parse(decodedString);
+    // console.log("Decoded string:", decodedString);
+    const parsedContent = JSON.parse(decodedString);
+    if (Array.isArray(parsedContent) && parsedContent.length > 0 && parsedContent[0].Content) {
+        return JSON.parse(parsedContent[0].Content);
+    }
+    return parsedContent;
 }
 
 export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>, caseId: string | null): Promise<ComponentFramework.WebApi.Entity[]> {
@@ -36,7 +41,7 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
     const query = `?fetchXml=${fetchXml}`;
     const response = await context.webAPI.retrieveMultipleRecords("msdyn_ocliveworkitem", query);
     if (response.entities.length > 0) {
-        console.log("WhatsApp chats retrieved:", response.entities);
+        // console.log("WhatsApp chats retrieved:", response.entities);
         response.entities.forEach(entity => {
             if (entity["annotation.documentbody"]) {
                 entity["annotation.documentbody"] = extractDocumentBodyContent(entity["annotation.documentbody"]);
@@ -56,7 +61,7 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
         }
         return entity;
     });
-    console.log("WhatsApp chats (test) retrieved:", entities);
+    // console.log("WhatsApp chats (test) retrieved:", entities);
     console.table(entities);
     return entities;
 }

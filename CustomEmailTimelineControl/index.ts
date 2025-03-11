@@ -5,6 +5,7 @@ import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { getCurrentEntityData, getIncidentEntityData, getAllEmails } from './services/emailService';
+import { getWhatsAppChats, getWhatsAppChatsTest } from './services/whatsappChatService';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class CustomEmailTimelineControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -14,6 +15,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     // Reference to ComponentFramework Context object
     private _context: ComponentFramework.Context<IInputs>;
     private _emailMessageCollection: ComponentFramework.WebApi.Entity[];
+    private _whatsAppChatCollection: ComponentFramework.WebApi.Entity[];
     private _emailLoadInProgress: boolean = true;
     private _state: ComponentFramework.Dictionary;
 
@@ -39,12 +41,14 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         this._state = state;
 
         this._emailMessageCollection = [];
+        this._whatsAppChatCollection = [];
         this._emailLoadInProgress = true;
 
         // Check if we are in debug mode and set a timer to simulate loading
         if (context.parameters.DebugMode.raw == true) {
             setInterval(() => {
                 this._emailLoadInProgress = false;
+                this._whatsAppChatCollection = getWhatsAppChatsTest();
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
                 this._context.factory.requestRender();
             }, 3000);
@@ -55,13 +59,17 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 .then(() => getAllEmails(this._context))
                 .then(emails => {
                     this._emailMessageCollection = emails;
+                    return getWhatsAppChats(this._context, null);
+                })
+                .then(chats => {
+                    this._whatsAppChatCollection = chats;
                     this._emailLoadInProgress = false;
                     this.notifyOutputChanged(); // Notify the framework that the data has changed
                     this._context.factory.requestRender();
-                    return emails;
+                    return;
                 })
                 .catch(error => {
-                    console.error("Error retrieving emails:", error);
+                    console.error("Error retrieving emails or chats:", error);
                 });
         }
 
@@ -81,6 +89,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
             React.createElement(
                 Timeline, {
                 emailMessageCollection: this._emailMessageCollection,
+                whatsAppChatCollection: this._whatsAppChatCollection,
                 context: this._context,
                 width: context.mode.allocatedWidth == null ? "100%" : context.mode.allocatedWidth - 8 + "px",
                 loading: this._emailLoadInProgress
