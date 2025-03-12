@@ -12,6 +12,33 @@
             "activityid": {
                 "type": "string"
             },
+            "modifiedon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "modifiedon": {
+                "type": "string"
+            },
+            "createdon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "createdon": {
+                "type": "string"
+            },
+            "activitytypecode@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "activitytypecode": {
+                "type": "string"
+            },
+            "msdyn_customerlocale": {
+                "type": "string"
+            },
+            "msdyn_channel@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "msdyn_channel": {
+                "type": "string"
+            },
             "msdyn_title": {
                 "type": "string"
             },
@@ -21,16 +48,37 @@
             "msdyn_createdon": {
                 "type": "string"
             },
-            "msdyn_channel@OData.Community.Display.V1.FormattedValue": {
+            "_msdyn_activeagentid_value@OData.Community.Display.V1.FormattedValue": {
                 "type": "string"
             },
-            "msdyn_channel": {
+            "_msdyn_activeagentid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
                 "type": "string"
             },
-            "annotation.annotationid@OData.Community.Display.V1.AttributeName": {
+            "_msdyn_activeagentid_value": {
                 "type": "string"
             },
-            "annotation.annotationid": {
+            "_msdyn_customer_value@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "_msdyn_customer_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
+                "type": "string"
+            },
+            "_msdyn_customer_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string"
+            },
+            "_msdyn_customer_value": {
+                "type": "string"
+            },
+            "_msdyn_customerlanguageid_value@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "_msdyn_customerlanguageid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
+                "type": "string"
+            },
+            "_msdyn_customerlanguageid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
+                "type": "string"
+            },
+            "_msdyn_customerlanguageid_value": {
                 "type": "string"
             },
             "annotation.documentbody@OData.Community.Display.V1.AttributeName": {
@@ -44,23 +92,47 @@
             },
             "annotation.filename": {
                 "type": "string"
+            },
+            "annotation.annotationid@OData.Community.Display.V1.AttributeName": {
+                "type": "string"
+            },
+            "annotation.annotationid": {
+                "type": "string"
             }
         },
         "required": [
             "@@odata.etag",
             "subject",
             "activityid",
+            "modifiedon@OData.Community.Display.V1.FormattedValue",
+            "modifiedon",
+            "createdon@OData.Community.Display.V1.FormattedValue",
+            "createdon",
+            "activitytypecode@OData.Community.Display.V1.FormattedValue",
+            "activitytypecode",
+            "msdyn_customerlocale",
+            "msdyn_channel@OData.Community.Display.V1.FormattedValue",
+            "msdyn_channel",
             "msdyn_title",
             "msdyn_createdon@OData.Community.Display.V1.FormattedValue",
             "msdyn_createdon",
-            "msdyn_channel@OData.Community.Display.V1.FormattedValue",
-            "msdyn_channel",
-            "annotation.annotationid@OData.Community.Display.V1.AttributeName",
-            "annotation.annotationid",
+            "_msdyn_activeagentid_value@OData.Community.Display.V1.FormattedValue",
+            "_msdyn_activeagentid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+            "_msdyn_activeagentid_value",
+            "_msdyn_customer_value@OData.Community.Display.V1.FormattedValue",
+            "_msdyn_customer_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
+            "_msdyn_customer_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+            "_msdyn_customer_value",
+            "_msdyn_customerlanguageid_value@OData.Community.Display.V1.FormattedValue",
+            "_msdyn_customerlanguageid_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
+            "_msdyn_customerlanguageid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+            "_msdyn_customerlanguageid_value",
             "annotation.documentbody@OData.Community.Display.V1.AttributeName",
             "annotation.documentbody",
             "annotation.filename@OData.Community.Display.V1.AttributeName",
-            "annotation.filename"
+            "annotation.filename",
+            "annotation.annotationid@OData.Community.Display.V1.AttributeName",
+            "annotation.annotationid"
         ]
     }
 }

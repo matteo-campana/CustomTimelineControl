@@ -135,8 +135,6 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
     const emailFetchQuery = `?fetchXml=${fetchXml}`;
     const retrievedEmails = await context.webAPI.retrieveMultipleRecords("email", emailFetchQuery).then(
         (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
-            console.log("Emails retrieved:", response.entities);
-            console.table(response.entities);
             return response.entities;
         },
         (errorResponse) => {
@@ -148,8 +146,6 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
     const attachmentsFetchQuery = `?fetchXml=${emailAttachmentFetchXml}`;
     const emailsWithAttachments = await context.webAPI.retrieveMultipleRecords("email", attachmentsFetchQuery).then(
         (response: ComponentFramework.WebApi.RetrieveMultipleResponse) => {
-            console.log("Emails with attachments retrieved:", response.entities);
-            console.table(response.entities);
             return response.entities;
         },
         (errorResponse) => {
@@ -173,7 +169,6 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
 
     console.log("Emails with attachments merged:", retrievedEmails);
 
-    console.table(retrievedEmails);
 
     return retrievedEmails;
 }
@@ -216,6 +211,27 @@ export const generateEmailsFromJson = (): IEmailCardProps[] => {
             emailId: email.activityid,
             attachments: email.attachments || [],
             context: null as any as ComponentFramework.Context<IInputs>,
+        };
+    });
+    return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
+};
+
+export const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
+    const emails = emailMessages.map((email) => {
+        const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
+        const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
+        return {
+            from: fromParty ? fromParty.addressused : "unknown",
+            sent: new Date(email.createdon).toLocaleString(),
+            to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
+            subject: email.subject,
+            content: email.description,
+            createdOn: new Date(email.createdon),
+            modifiedOn: new Date(email.modifiedon),
+            isVisualized: email.statuscode === 6,
+            emailId: email.activityid,
+            context: null as any as ComponentFramework.Context<IInputs>,
+            attachments: email.attachments || [],
         };
     });
     return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());

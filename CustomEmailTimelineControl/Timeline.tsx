@@ -5,9 +5,11 @@ import {
     Spinner
 } from "@fluentui/react-components";
 import * as React from "react";
+import { ChatCard, IChatCardProps } from "./chat/ChatCard";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import { IInputs } from "./generated/ManifestTypes";
-import { generateEmailsFromJson } from './services/emailService';
+import { generateEmailsFromJson, transformRawEmailMessages } from './services/emailService';
+import { mapEntitiesToChatCardProps } from './services/whatsappChatService';
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
@@ -35,42 +37,30 @@ const useStyles = makeStyles({
     },
 });
 
-const transformRawEmailMessages = (emailMessages: ComponentFramework.WebApi.Entity[]): IEmailCardProps[] => {
-    const emails = emailMessages.map((email) => {
-        const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
-        const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);
-        return {
-            from: fromParty ? fromParty.addressused : "unknown",
-            sent: new Date(email.createdon).toLocaleString(),
-            to: toParty ? (toParty.addressused || toParty["_partyid_value@OData.Community.Display.V1.FormattedValue"]) : "unknown",
-            subject: email.subject,
-            content: email.description,
-            createdOn: new Date(email.createdon),
-            modifiedOn: new Date(email.modifiedon),
-            isVisualized: email.statuscode === 6,
-            emailId: email.activityid,
-            context: null as any as ComponentFramework.Context<IInputs>,
-            attachments: email.attachments || [],
-        };
-    });
-    return emails.sort((a, b) => b.modifiedOn.getTime() - a.modifiedOn.getTime());
-};
-
 const Timeline: React.FC<ITimelineProps> = (props) => {
     const [emails, setEmails] = React.useState<IEmailCardProps[]>([]);
+    const [whatsAppChats, setWhatsAppChats] = React.useState<IChatCardProps[]>([]);
     const styles = useStyles();
 
     React.useEffect(() => {
         if (props.loading) {
             setEmails([]);
+            setWhatsAppChats([]);
         } else {
             if (props.context.parameters.DebugMode.raw === true) {
                 const transformedEmails = generateEmailsFromJson();
+                const transformedWhatsAppChats = mapEntitiesToChatCardProps(props.whatsAppChatCollection);
+
                 setEmails(transformedEmails);
+                setWhatsAppChats(transformedWhatsAppChats);
+
                 props.context.factory.requestRender();
             } else {
                 const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+                const transformedWhatsAppChats = mapEntitiesToChatCardProps(props.whatsAppChatCollection);
+
                 setEmails(transformedEmails);
+                setWhatsAppChats(transformedWhatsAppChats);
                 props.context.factory.requestRender();
             }
         }
@@ -87,22 +77,46 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                     {props.context.resources.getString("NoEmails")}
                 </Label>
             ) : (
-                emails.map((email, index) => (
-                    <EmailCard
-                        key={index}
-                        from={email.from}
-                        sent={email.sent}
-                        to={email.to}
-                        subject={email.subject}
-                        content={email.content}
-                        createdOn={email.createdOn}
-                        modifiedOn={email.modifiedOn}
-                        isVisualized={email.isVisualized}
-                        emailId={email.emailId}
-                        context={props.context}
-                        attachments={email.attachments}
-                    />
-                ))
+                <>
+                    {whatsAppChats.map((chat, index) => (
+                        <ChatCard
+                            key={index}
+                            context={chat.context}
+                            chatMessages={chat.chatMessages}
+                            etag={chat.etag}
+                            subject={chat.subject}
+                            activityid={chat.activityid}
+                            title={chat.title}
+                            createdOnFormatted={chat.createdOnFormatted}
+                            createdOn={chat.createdOn}
+                            channelFormatted={chat.channelFormatted}
+                            channel={chat.channel}
+                            annotationIdAttribute={chat.annotationIdAttribute}
+                            annotationId={chat.annotationId}
+                            documentBodyAttribute={chat.documentBodyAttribute}
+                            documentBody={chat.documentBody}
+                            filenameAttribute={chat.filenameAttribute}
+                            filename={chat.filename}
+                        />
+                    ))}
+                    {emails.map((email, index) => (
+                        <EmailCard
+                            key={index}
+                            from={email.from}
+                            sent={email.sent}
+                            to={email.to}
+                            subject={email.subject}
+                            content={email.content}
+                            createdOn={email.createdOn}
+                            modifiedOn={email.modifiedOn}
+                            isVisualized={email.isVisualized}
+                            emailId={email.emailId}
+                            context={props.context}
+                            attachments={email.attachments}
+                        />
+                    ))}
+
+                </>
             )}
         </div>
     );
