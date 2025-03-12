@@ -10,7 +10,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import {
     Text
 } from "@fluentui/react-components";
-import { CalendarDateRegular, PersonChatRegular } from "@fluentui/react-icons";
+import { CalendarDateRegular, ClockRegular, PersonChatRegular } from "@fluentui/react-icons";
 
 export interface IChatMessageProps {
     style?: React.CSSProperties;
@@ -42,16 +42,19 @@ export interface IChatMessageProps {
 const useStyles = makeStyles({
     messageContainer: {
         display: 'flex',
-        marginBottom: '10px',
     },
     messageCard: {
         maxWidth: '80%',
     },
-    header: {
-        alignItems: "center",
-        justifyContent: "space-between",
+    applicationMessage: {
+        justifyContent: 'flex-start',
     },
-
+    userMessage: {
+        justifyContent: 'flex-end',
+    },
+    systemMessage: {
+        justifyContent: 'flex-start',
+    },
 });
 
 export const ChatMessage: React.FC<IChatMessageProps> = (props) => {
@@ -59,23 +62,20 @@ export const ChatMessage: React.FC<IChatMessageProps> = (props) => {
 
     return (
         <section>
-            {props.contentType === 'text' ? (
-                <section>
-                    <section>
-                        {props.from?.application?.displayName ? <Text underline><PersonChatRegular /> {props.from?.application?.displayName}</Text> : <></>}
-                        {props.from?.user?.displayName ? <Text underline><PersonChatRegular /> {props.from?.user?.displayName}</Text> : <></>}
-                        <Text><CalendarDateRegular />{new Date(props.createdDateTime).toLocaleString()}</Text>
-                    </section>
-                    <Card className={classes.messageCard}>
-                        <CardHeader className={classes.header}
-                            // header={
-
-                            // }
-                            description={
+            {props.contentType === 'text' && !props.tags?.startsWith('system,error_details') ? (
+                <section className={`${classes.messageContainer} ${props.from?.user && (props.tags?.startsWith('public') || props.tags?.startsWith('ChannelId-whatsapp')) ? classes.userMessage : classes.applicationMessage}`}>
+                    <div>
+                        <section>
+                            {props.from?.application?.displayName ? <Text underline><PersonChatRegular /> {props.from?.application?.displayName}</Text> : <></>}
+                            {props.from?.user?.displayName ? <Text underline><PersonChatRegular /> {props.from?.user?.displayName}</Text> : <></>}
+                            <Text>&nbsp;</Text>
+                            <Text><ClockRegular /> {new Date(props.createdDateTime).toLocaleString()}</Text>
+                        </section>
+                        {props.tags?.startsWith('public') || props.tags?.startsWith('ChannelId-whatsapp') ?
+                            <Card className={classes.messageCard}>
                                 <Text>{props.content}</Text>
-                            }
-                        ></CardHeader>
-                    </Card>
+                            </Card> : <Text>{props.content}</Text>}
+                    </div>
                 </section>
             ) : <></>}
         </section>

@@ -69,6 +69,10 @@ const useStyles = makeStyles({
         flexDirection: "column",
         justifyContent: "flex-start",
     },
+    transcriptContainer: {
+        padding: "16px", // Add padding to the chat card
+        margin: "16px", // Remove margin from the chat card
+    },
 });
 
 export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
@@ -92,13 +96,16 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
                 }
             />
 
-            <CardPreview>
+
+            <div className={classes.transcriptContainer}>
+                <Text weight="semibold">Transcript</Text>
                 <Card>
                     {props.chatMessages.map((message, index) => (
                         <ChatMessage key={index} {...message} />
                     ))}
                 </Card>
-            </CardPreview>
+            </div>
+
             <CardFooter></CardFooter>
         </Card>
     );
