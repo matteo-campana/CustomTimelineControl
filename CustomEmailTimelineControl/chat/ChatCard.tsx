@@ -27,7 +27,7 @@ import {
     useOverflowMenu
 } from "@fluentui/react-components";
 
-import { AttachText20Regular, MoreHorizontal20Regular } from "@fluentui/react-icons";
+import { AttachText20Regular, ChatEmptyRegular, MoreHorizontal20Regular, PersonChatRegular } from "@fluentui/react-icons";
 import DOMPurify from 'dompurify';
 
 export interface IChatCardProps {
@@ -48,6 +48,18 @@ export interface IChatCardProps {
     documentBody: string;
     filenameAttribute: string;
     filename: string;
+    modifiedOnFormatted: string;
+    modifiedOn: string;
+    activityTypeCodeFormatted: string;
+    activityTypeCode: string;
+    customerValueFormatted: string;
+    customerLocale: string;
+    activeAgentIdFormatted: string;
+    activeAgentId: string;
+    customerIdFormatted: string;
+    customerId: string;
+    customerLanguageIdFormatted: string;
+    customerLanguageId: string;
 }
 
 const useStyles = makeStyles({
@@ -66,14 +78,16 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
             <CardHeader 
                 header={
                     <div className={classes.header}>
-                        <Text>Created on: {props.createdOnFormatted}</Text>
-                        <Text> WhatsApp from: igor salvadorClosed</Text>
-                        <Text>{props.title}</Text>
+                        <Text weight="regular">Created on: {props.createdOnFormatted}</Text>
+                        <Text weight="semibold">
+                            <ChatEmptyRegular /> WhatsApp from: <PersonChatRegular /> {props.customerValueFormatted}</Text>
+                        <Text underline>{props.title}</Text>
+                        <Text weight="regular">Last Updated: {props.modifiedOnFormatted}</Text>
                     </div>
                 }
 
                 description={
-                    <Text>Channel: {props.channelFormatted}</Text>
+                    <Text></Text>
                 }
             />
 

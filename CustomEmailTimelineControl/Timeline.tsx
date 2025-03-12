@@ -97,6 +97,18 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                             documentBody={chat.documentBody}
                             filenameAttribute={chat.filenameAttribute}
                             filename={chat.filename}
+                            modifiedOnFormatted={chat.modifiedOnFormatted}
+                            modifiedOn={chat.modifiedOn}
+                            activityTypeCodeFormatted={chat.activityTypeCodeFormatted}
+                            activityTypeCode={chat.activityTypeCode}
+                            customerValueFormatted={chat.customerValueFormatted}
+                            customerLocale={chat.customerLocale}
+                            activeAgentIdFormatted={chat.activeAgentIdFormatted}
+                            activeAgentId={chat.activeAgentId}
+                            customerIdFormatted={chat.customerIdFormatted}
+                            customerId={chat.customerId}
+                            customerLanguageIdFormatted={chat.customerLanguageIdFormatted}
+                            customerLanguageId={chat.customerLanguageId}
                         />
                     ))}
                     {emails.map((email, index) => (
@@ -115,7 +127,6 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                             attachments={email.attachments}
                         />
                     ))}
-
                 </>
             )}
         </div>

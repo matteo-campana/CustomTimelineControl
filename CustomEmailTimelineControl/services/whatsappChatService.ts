@@ -5,18 +5,17 @@ import { IChatMessageProps } from "../chat/ChatMessage";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDocumentBodyContent(base64String: string): any {
-    if (!base64String) {
+    if(!base64String) {
         return [];
     }
-    try{
-        const decodedString = atob(base64String);
-        const parsedString = JSON.parse(decodedString);
-        return parsedString;
+    // console.log("Base64 string:", base64String);
+    const decodedString = atob(base64String);
+    // console.log("Decoded string:", decodedString);
+    const parsedContent = JSON.parse(decodedString);
+    if (Array.isArray(parsedContent) && parsedContent.length > 0 && parsedContent[0].Content) {
+        return JSON.parse(parsedContent[0].Content);
     }
-    catch(e){
-        console.error("Error while parsing document body content:", e);
-        return [];
-    }
+    return parsedContent;
 }
 
 export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>, caseId: string | null): Promise<ComponentFramework.WebApi.Entity[]> {
@@ -51,6 +50,7 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
             <attribute name="annotationid" />
             <attribute name="documentbody" />
             <attribute name="filename" />
+            <attribute name="mimetype" />
         </link-entity>
         </link-entity>
     </entity>
@@ -80,7 +80,8 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
         }
         return entity;
     });
-    // console.log("WhatsApp chats (test) retrieved:", entities);
+    //console.log("WhatsApp chats (test) retrieved:");
+    console.log(entities);
     // console.table(entities);
     return entities;
 }
@@ -122,6 +123,18 @@ export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.E
             documentBody: entity["annotation.documentbody"],
             filenameAttribute: "filename",
             filename: entity["annotation.filename"],
+            modifiedOnFormatted: entity["modifiedon@OData.Community.Display.V1.FormattedValue"],
+            modifiedOn: entity["modifiedon"],
+            activityTypeCodeFormatted: entity["activitytypecode@OData.Community.Display.V1.FormattedValue"],
+            activityTypeCode: entity["activitytypecode"],
+            customerLocale: entity["msdyn_customerlocale"],
+            activeAgentIdFormatted: entity["_msdyn_activeagentid_value@OData.Community.Display.V1.FormattedValue"],
+            activeAgentId: entity["_msdyn_activeagentid_value"],
+            customerValueFormatted: entity["_msdyn_customer_value@OData.Community.Display.V1.FormattedValue"],
+            customerIdFormatted: entity["_msdyn_customer_value@OData.Community.Display.V1.FormattedValue"],
+            customerId: entity["_msdyn_customer_value"],
+            customerLanguageIdFormatted: entity["_msdyn_customerlanguageid_value@OData.Community.Display.V1.FormattedValue"],
+            customerLanguageId: entity["_msdyn_customerlanguageid_value"],
         };
     });
 }
