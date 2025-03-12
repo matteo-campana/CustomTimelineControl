@@ -72,11 +72,28 @@ const useStyles = makeStyles({
     transcriptContainer: {
         padding: "16px", // Add padding to the chat card
         margin: "16px", // Remove margin from the chat card
+        maxHeight: "100px", // Add max height for overflow
+        overflowY: "hidden", // Hide overflow
+    },
+    expandedTranscriptContainer: {
+        padding: "16px", // Add padding to the chat card
+        margin: "16px", // Remove margin from the chat card
+        maxHeight: "none", // Remove max height for expanded view
+        overflowY: "auto", // Enable overflow
     },
 });
 
 export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
     const classes = useStyles();
+    const [isExpanded, setIsExpanded] = React.useState(false);
+    const [isOverflowing, setIsOverflowing] = React.useState(false);
+    const transcriptRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (transcriptRef.current) {
+            setIsOverflowing(true);
+        }
+    }, [props.chatMessages]);
 
     return (
         <Card>
@@ -97,15 +114,23 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
             />
 
 
-            <div className={classes.transcriptContainer}>
-                <Text weight="semibold">Transcript</Text>
-                <Card>
-                    {props.chatMessages.map((message, index) => (
-                        <ChatMessage key={index} {...message} />
-                    ))}
-                </Card>
+            <div ref={transcriptRef} className={isExpanded ? classes.expandedTranscriptContainer : classes.transcriptContainer}>
+                {isExpanded && (
+                    <>
+                        <Text weight="semibold">Transcript</Text>
+                        <Card>
+                            {props.chatMessages.map((message, index) => (
+                                <ChatMessage key={index} {...message} />
+                            ))}
+                        </Card>
+                    </>
+                )}
             </div>
-
+            {isOverflowing && (
+                <ToggleButton onClick={() => setIsExpanded(!isExpanded)}>
+                    {isExpanded ? "Hide Transcript" : "Show Transcript"}
+                </ToggleButton>
+            )}
             <CardFooter></CardFooter>
         </Card>
     );
