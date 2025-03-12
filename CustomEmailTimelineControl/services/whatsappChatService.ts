@@ -88,23 +88,26 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
 
 export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.Entity[]): IChatCardProps[] {
     return entities.map(entity => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const chatMessages: IChatMessageProps[] = (entity["annotation.documentbody"] || []).map((message: any) => ({
-            context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available
-            created: message.created,
-            isControlMessage: message.isControlMessage,
-            content: message.content,
-            createdDateTime: message.createdDateTime,
-            deleted: message.deleted,
-            id: message.id,
-            contentType: message.contentType,
-            from: message.from,
-            attachments: message.attachments,
-            tags: message.tags,
-            deliveryMode: message.deliveryMode,
-            fromUserId: message.fromUserId,
-            isBridged: message.isBridged,
-        }));
+       
+        const chatMessages: IChatMessageProps[] = (entity["annotation.documentbody"] || [])
+            
+            .map((message: IChatMessageProps) => ({
+                context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available
+                created: message.created,
+                isControlMessage: message.isControlMessage,
+                content: message.content,
+                createdDateTime: message.createdDateTime,
+                deleted: message.deleted,
+                id: message.id,
+                contentType: message.contentType,
+                from: message.from,
+                attachments: message.attachments,
+                tags: message.tags,
+                deliveryMode: message.deliveryMode,
+                fromUserId: message.fromUserId,
+                isBridged: message.isBridged,
+            }))
+            .sort((a: { createdDateTime: string | number | Date; }, b: { createdDateTime: string | number | Date; }) => new Date(a.createdDateTime).getTime() - new Date(b.createdDateTime).getTime());
 
         return {
             context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available

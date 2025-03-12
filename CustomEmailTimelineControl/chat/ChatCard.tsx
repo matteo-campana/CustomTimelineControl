@@ -29,6 +29,7 @@ import {
 
 import { AttachText20Regular, ChatEmptyRegular, MoreHorizontal20Regular, PersonChatRegular } from "@fluentui/react-icons";
 import DOMPurify from 'dompurify';
+import { ChatMessage } from "./ChatMessage";
 
 export interface IChatCardProps {
     style?: React.CSSProperties;
@@ -75,7 +76,7 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
 
     return (
         <Card>
-            <CardHeader 
+            <CardHeader
                 header={
                     <div className={classes.header}>
                         <Text weight="regular">Created on: {props.createdOnFormatted}</Text>
@@ -91,8 +92,13 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
                 }
             />
 
-
-            <CardPreview></CardPreview>
+            <CardPreview>
+                <Card>
+                    {props.chatMessages.map((message, index) => (
+                        <ChatMessage key={index} {...message} />
+                    ))}
+                </Card>
+            </CardPreview>
             <CardFooter></CardFooter>
         </Card>
     );
