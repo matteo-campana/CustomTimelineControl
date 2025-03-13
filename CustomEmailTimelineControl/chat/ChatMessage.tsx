@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
     Card,
-    CardHeader,
     makeStyles
 } from "@fluentui/react-components";
 import * as React from "react";
@@ -10,7 +9,7 @@ import { IInputs } from "../generated/ManifestTypes";
 import {
     Text
 } from "@fluentui/react-components";
-import { CalendarDateRegular, ClockRegular, PersonChatRegular } from "@fluentui/react-icons";
+import { ClockRegular, PersonChatRegular } from "@fluentui/react-icons";
 
 export interface IChatMessageProps {
     style?: React.CSSProperties;

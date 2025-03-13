@@ -144,4 +144,52 @@
   <data name="NoEmails" xml:space="preserve">
     <value>No Emails</value>
   </data>
+  <data name="EmailBody" xml:space="preserve">
+    <value>Body</value>
+  </data>
+  <data name="EmailCreatedOn" xml:space="preserve">
+    <value>Created On</value>
+  </data>
+  <data name="WhatsAppFrom" xml:space="preserve">
+    <value>WhatsApp From</value>
+  </data>
+  <data name="EmailOpenChat" xml:space="preserve">
+    <value>Open Chat</value>
+  </data>
+  <data name="EmailOpenCase" xml:space="preserve">
+    <value>Open Case</value>
+  </data>
+  <data name="EmailTranscript" xml:space="preserve">
+    <value>Transcript</value>
+  </data>
+  <data name="EmailHideTranscript" xml:space="preserve">
+    <value>Hide Transcript</value>
+  </data>
+  <data name="EmailShowTranscript" xml:space="preserve">
+    <value>Show Transcript</value>
+  </data>
+  <data name="ChatCreatedOn" xml:space="preserve">
+    <value>Chat Created On</value>
+  </data>
+  <data name="ChatModifiedOn" xml:space="preserve">
+    <value>Chat Modified On</value>
+  </data>
+  <data name="ChatMoreOptions" xml:space="preserve">
+    <value>More Options</value>
+  </data>
+  <data name="ChatOpenChat" xml:space="preserve">
+    <value>Open Chat</value>
+  </data>
+  <data name="ChatOpenCase" xml:space="preserve">
+    <value>Open Case</value>
+  </data>
+  <data name="ChatTranscript" xml:space="preserve">
+    <value>Transcript</value>
+  </data>
+  <data name="ChatHideTranscript" xml:space="preserve">
+    <value>Hide Transcript</value>
+  </data>
+  <data name="ChatShowTranscript" xml:space="preserve">
+    <value>Show Transcript</value>
+  </data>
 </root>

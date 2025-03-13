@@ -81,7 +81,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                     {whatsAppChats.map((chat, index) => (
                         <ChatCard
                             key={index}
-                            context={chat.context}
+                            context={props.context}
                             chatMessages={chat.chatMessages}
                             etag={chat.etag}
                             subject={chat.subject}

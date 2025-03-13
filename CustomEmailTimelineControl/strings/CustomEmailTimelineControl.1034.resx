@@ -1,41 +1,114 @@
 <root>
   <data name="EmailSubject" xml:space="preserve">
     <value>Asunto</value>
+    <comment>Email subject</comment>
   </data>
   <data name="EmailBody" xml:space="preserve">
     <value>Cuerpo del correo electrónico</value>
+    <comment>Email body</comment>
   </data>
   <data name="EmailContent" xml:space="preserve">
     <value>Contenido</value>
+    <comment>Email content</comment>
   </data>
   <data name="EmailModifiedOn" xml:space="preserve">
     <value>Modificado el</value>
+    <comment>Email modified on</comment>
   </data>
   <data name="EmailOpenRecord" xml:space="preserve">
     <value>Abrir Registro</value>
+    <comment>Open email record</comment>
   </data>
   <data name="EmailShowMore" xml:space="preserve">
     <value>Mostrar más</value>
+    <comment>Show more</comment>
   </data>
   <data name="EmailShowLess" xml:space="preserve">
     <value>Mostrar menos</value>
+    <comment>Show less</comment>
   </data>
   <data name="EmailFrom" xml:space="preserve">
     <value>De</value>
+    <comment>Email from</comment>
   </data>
   <data name="EmailTo" xml:space="preserve">
     <value>Para</value>
+    <comment>Email to</comment>
   </data>
   <data name="EmailSent" xml:space="preserve">
     <value>Enviado</value>
+    <comment>Email sent</comment>
   </data>
   <data name="EmailMoreOptions" xml:space="preserve">
     <value>Más opciones</value>
+    <comment>More options</comment>
   </data>
   <data name="EmailAttachments" xml:space="preserve">
     <value>Archivos adjuntos</value>
+    <comment>Email attachments</comment>
   </data>
   <data name="NoEmails" xml:space="preserve">
     <value>No hay correos electrónicos</value>
+    <comment>No emails</comment>
+  </data>
+  <data name="EmailCreatedOn" xml:space="preserve">
+    <value>Creado el</value>
+    <comment>Email created on</comment>
+  </data>
+  <data name="WhatsAppFrom" xml:space="preserve">
+    <value>WhatsApp de</value>
+    <comment>WhatsApp from</comment>
+  </data>
+  <data name="EmailOpenChat" xml:space="preserve">
+    <value>Abrir Chat</value>
+    <comment>Open chat</comment>
+  </data>
+  <data name="EmailOpenCase" xml:space="preserve">
+    <value>Abrir Caso</value>
+    <comment>Open case</comment>
+  </data>
+  <data name="EmailTranscript" xml:space="preserve">
+    <value>Transcripción</value>
+    <comment>Email transcript</comment>
+  </data>
+  <data name="EmailHideTranscript" xml:space="preserve">
+    <value>Ocultar Transcripción</value>
+    <comment>Hide transcript</comment>
+  </data>
+  <data name="EmailShowTranscript" xml:space="preserve">
+    <value>Mostrar Transcripción</value>
+    <comment>Show transcript</comment>
+  </data>
+  <data name="ChatCreatedOn" xml:space="preserve">
+    <value>Creado el</value>
+    <comment>Chat created on</comment>
+  </data>
+  <data name="ChatModifiedOn" xml:space="preserve">
+    <value>Modificado el</value>
+    <comment>Chat modified on</comment>
+  </data>
+  <data name="ChatMoreOptions" xml:space="preserve">
+    <value>Más opciones</value>
+    <comment>More options</comment>
+  </data>
+  <data name="ChatOpenChat" xml:space="preserve">
+    <value>Abrir Chat</value>
+    <comment>Open chat</comment>
+  </data>
+  <data name="ChatOpenCase" xml:space="preserve">
+    <value>Abrir Caso</value>
+    <comment>Open case</comment>
+  </data>
+  <data name="ChatTranscript" xml:space="preserve">
+    <value>Transcripción</value>
+    <comment>Chat transcript</comment>
+  </data>
+  <data name="ChatHideTranscript" xml:space="preserve">
+    <value>Ocultar Transcripción</value>
+    <comment>Hide transcript</comment>
+  </data>
+  <data name="ChatShowTranscript" xml:space="preserve">
+    <value>Mostrar Transcripción</value>
+    <comment>Show transcript</comment>
   </data>
 </root>

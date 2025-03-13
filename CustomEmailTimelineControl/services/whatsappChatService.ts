@@ -1,21 +1,26 @@
-import { IInputs } from "../generated/ManifestTypes";
-import sampleData from "../sample-whatsapp-chat.json";
 import { IChatCardProps } from "../chat/ChatCard";
 import { IChatMessageProps } from "../chat/ChatMessage";
+import { IInputs } from "../generated/ManifestTypes";
+import sampleData from "../sample-whatsapp-chat.json";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDocumentBodyContent(base64String: string): any {
-    if(!base64String) {
+    try {
+        if (!base64String) {
+            return [];
+        }
+        // console.log("Base64 string:", base64String);
+        const decodedString = atob(base64String);
+        // console.log("Decoded string:", decodedString);
+        const parsedContent = JSON.parse(decodedString);
+        if (Array.isArray(parsedContent) && parsedContent.length > 0 && parsedContent[0].Content) {
+            return JSON.parse(parsedContent[0].Content);
+        }
+        return parsedContent;
+    } catch (error) {
+        console.error("Error decoding document body content:", error);
         return [];
     }
-    // console.log("Base64 string:", base64String);
-    const decodedString = atob(base64String);
-    // console.log("Decoded string:", decodedString);
-    const parsedContent = JSON.parse(decodedString);
-    if (Array.isArray(parsedContent) && parsedContent.length > 0 && parsedContent[0].Content) {
-        return JSON.parse(parsedContent[0].Content);
-    }
-    return parsedContent;
 }
 
 export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>, caseId: string | null): Promise<ComponentFramework.WebApi.Entity[]> {
@@ -67,7 +72,7 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
                 entity["annotation.documentbody"] = extractDocumentBodyContent(entity["annotation.documentbody"]);
             }
         });
-        console.log("WhatsApp chats retrieved:", response.entities);
+        //console.log("WhatsApp chats retrieved:", response.entities);
         return response.entities;
     } else {
         return [];
@@ -82,16 +87,16 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
         return entity;
     });
     //console.log("WhatsApp chats (test) retrieved:");
-    console.log(entities);
+    //console.log(entities);
     // console.table(entities);
     return entities;
 }
 
 export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.Entity[]): IChatCardProps[] {
     return entities.map(entity => {
-       
+
         const chatMessages: IChatMessageProps[] = (entity["annotation.documentbody"] || [])
-            
+
             .map((message: IChatMessageProps) => ({
                 context: {} as ComponentFramework.Context<IInputs>, // Provide the actual context if available
                 created: message.created,
