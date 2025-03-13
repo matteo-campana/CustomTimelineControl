@@ -80,53 +80,10 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
             ) : (
                 <>
                     {whatsAppChats.map((chat, index) => (
-                        <ChatCard
-                            key={index}
-                            context={props.context}
-                            chatMessages={chat.chatMessages}
-                            etag={chat.etag}
-                            subject={chat.subject}
-                            activityid={chat.activityid}
-                            title={chat.title}
-                            createdOnFormatted={chat.createdOnFormatted}
-                            createdOn={chat.createdOn}
-                            channelFormatted={chat.channelFormatted}
-                            channel={chat.channel}
-                            annotationIdAttribute={chat.annotationIdAttribute}
-                            annotationId={chat.annotationId}
-                            documentBodyAttribute={chat.documentBodyAttribute}
-                            documentBody={chat.documentBody}
-                            filenameAttribute={chat.filenameAttribute}
-                            filename={chat.filename}
-                            modifiedOnFormatted={chat.modifiedOnFormatted}
-                            modifiedOn={chat.modifiedOn}
-                            activityTypeCodeFormatted={chat.activityTypeCodeFormatted}
-                            activityTypeCode={chat.activityTypeCode}
-                            customerValueFormatted={chat.customerValueFormatted}
-                            customerLocale={chat.customerLocale}
-                            activeAgentIdFormatted={chat.activeAgentIdFormatted}
-                            activeAgentId={chat.activeAgentId}
-                            customerIdFormatted={chat.customerIdFormatted}
-                            customerId={chat.customerId}
-                            customerLanguageIdFormatted={chat.customerLanguageIdFormatted}
-                            customerLanguageId={chat.customerLanguageId}
-                        />
+                        <ChatCard key={index} {...chat} context={props.context} />
                     ))}
                     {emails.map((email, index) => (
-                        <EmailCard
-                            key={index}
-                            from={email.from}
-                            sent={email.sent}
-                            to={email.to}
-                            subject={email.subject}
-                            content={email.content}
-                            createdOn={email.createdOn}
-                            modifiedOn={email.modifiedOn}
-                            isVisualized={email.isVisualized}
-                            emailId={email.emailId}
-                            context={props.context}
-                            attachments={email.attachments}
-                        />
+                        <EmailCard key={index} {...email} context={props.context} />
                     ))}
                 </>
             )}
