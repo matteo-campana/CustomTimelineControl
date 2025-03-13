@@ -159,6 +159,10 @@ export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.E
             customerId: entity["_msdyn_customer_value"],
             customerLanguageIdFormatted: entity["_msdyn_customerlanguageid_value@OData.Community.Display.V1.FormattedValue"],
             customerLanguageId: entity["_msdyn_customerlanguageid_value"],
+            "_regardingobjectid_value": entity["_regardingobjectid_value"],
+            "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue": entity["_regardingobjectid_value@OData.Community.Display.V1.FormattedValue"],
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": entity["_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty"],
+            "_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname": entity["_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname"],
         };
     });
 }

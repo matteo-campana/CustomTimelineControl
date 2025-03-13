@@ -73,7 +73,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                 props.context.factory.requestRender();
             }
         }
-    }, [props.context.parameters.DebugMode.raw, props.emailMessageCollection, props.loading]);
+    }, [props.context.parameters.DebugMode.raw, props.emailMessageCollection, props.whatsAppChatCollection, props.loading]);
 
     return (
         <div className={styles.main}

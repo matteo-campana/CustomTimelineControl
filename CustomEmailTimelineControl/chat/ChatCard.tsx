@@ -54,6 +54,10 @@ export interface IChatCardProps {
     customerId: string;
     customerLanguageIdFormatted: string;
     customerLanguageId: string;
+    "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue": string;
+    "_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": string;
+    "_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname": string;
+    "_regardingobjectid_value": string;
 }
 
 const useStyles = makeStyles({
@@ -120,18 +124,19 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
                                     const appId = urlParams.get('appid');
                                     window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=msdyn_ocliveworkitem&id=${props.activityid}`, '_blank');
                                 }}>{t("ChatOpenChat")}</MenuItem>
-                                <MenuItem onClick={() => {
-                                    const urlParams = new URLSearchParams(window.location.search);
-                                    const environmentUrl = window.location.href.split('/main.aspx?')[0];
-                                    const appId = urlParams.get('appid');
-                                    window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=incident&id=${props.activityid}`, '_blank');
-                                }}>{t("ChatOpenCase")}</MenuItem>
+                                {props["_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname"] === "incident" && (
+                                    <MenuItem onClick={() => {
+                                        const urlParams = new URLSearchParams(window.location.search);
+                                        const environmentUrl = window.location.href.split('/main.aspx?')[0];
+                                        const appId = urlParams.get('appid');
+                                        window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=incident&id=${props._regardingobjectid_value}`, '_blank');
+                                    }}>{t("ChatOpenCase")}</MenuItem>
+                                )}
                             </MenuList>
                         </MenuPopover>
                     </Menu>
                 }
             />
-
 
             <div ref={transcriptRef} className={isExpanded ? classes.expandedTranscriptContainer : classes.transcriptContainer}>
                 {isExpanded && (
