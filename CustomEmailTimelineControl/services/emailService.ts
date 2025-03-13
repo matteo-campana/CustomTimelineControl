@@ -3,47 +3,11 @@ import { IEmailCardProps } from "../EmailCard";
 import { IInputs } from "../generated/ManifestTypes";
 import sampleEmails from "../sample_email.json";
 import { IEmailCardAttachment } from "../EmailCard";
-import { getCurrentEntityData, getIncidentEntityData } from "./utils";
+import { getCaseIds } from "./utils";
 
 export async function getAllEmails(context: ComponentFramework.Context<IInputs>): Promise<ComponentFramework.WebApi.Entity[]> {
-    const collectCurrent = context.parameters.CollectCurrentRecordEmails.raw;
-    const collectParent = context.parameters.CollectParentEmails.raw;
-    const collectAncestors = context.parameters.CollectAncestorEmails.raw;
 
-    let ancestors = await getCurrentEntityData(context).then(async (entity) => {
-        if (entity) {
-            const ancestorIds = [];
-            if (collectCurrent) {
-                ancestorIds.push(entity.incidentid);
-            }
-            if (collectParent && entity._parentcaseid_value) {
-                ancestorIds.push(entity._parentcaseid_value);
-            }
-            if (collectAncestors) {
-                // Add logic to fetch all ancestor IDs
-                if (entity._parentcaseid_value) {
-                    ancestorIds.push(entity._parentcaseid_value);
-
-                    let currentParentId = entity._parentcaseid_value;
-
-                    while (currentParentId) {
-                        const parentEntity = await getIncidentEntityData(context, currentParentId);
-                        if (parentEntity && parentEntity._parentcaseid_value) {
-                            currentParentId = parentEntity._parentcaseid_value;
-                            ancestorIds.push(currentParentId);
-                        } else {
-                            currentParentId = null;
-                        }
-                    }
-                }
-            }
-            return ancestorIds;
-        } else {
-            return [];
-        }
-    });
-
-    ancestors = Array.from(new Set(ancestors));
+    const ancestors = await getCaseIds(context);
 
     if (ancestors.length === 0) {
         return [];
@@ -139,8 +103,7 @@ export async function getAllEmails(context: ComponentFramework.Context<IInputs>)
             } as IEmailCardAttachment));
     });
 
-    console.log("Emails with attachments merged:", retrievedEmails);
-
+    // console.log("Emails with attachments merged:", retrievedEmails);
 
     return retrievedEmails;
 }

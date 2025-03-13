@@ -2,6 +2,7 @@ import { IChatCardProps } from "../chat/ChatCard";
 import { IChatMessageProps } from "../chat/ChatMessage";
 import { IInputs } from "../generated/ManifestTypes";
 import sampleData from "../sample-whatsapp-chat.json";
+import { getCaseIds } from "./utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractDocumentBodyContent(base64String: string): any {
@@ -9,9 +10,9 @@ function extractDocumentBodyContent(base64String: string): any {
         if (!base64String) {
             return [];
         }
-        // console.log("Base64 string:", base64String);
+
         const decodedString = atob(base64String);
-        // console.log("Decoded string:", decodedString);
+
         const parsedContent = JSON.parse(decodedString);
         if (Array.isArray(parsedContent) && parsedContent.length > 0 && parsedContent[0].Content) {
             return JSON.parse(parsedContent[0].Content);
@@ -23,7 +24,18 @@ function extractDocumentBodyContent(base64String: string): any {
     }
 }
 
-export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>, caseId: string | null): Promise<ComponentFramework.WebApi.Entity[]> {
+export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>): Promise<ComponentFramework.WebApi.Entity[]> {
+
+    const ancestors = await getCaseIds(context);
+
+    if (ancestors.length === 0) {
+        return [];
+    }
+
+    const filterValues = ancestors.map((ancestor) => {
+        return `<value uitype="incident">` + ancestor + `</value>`;
+    }).join('');
+
     const fetchXml = `
     <fetch>
     <entity name="msdyn_ocliveworkitem">
@@ -46,10 +58,11 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
         <attribute name="sendermailboxid" />
         <attribute name="utcconversiontimezonecode" />
         <attribute name="regardingobjectid" />
-        ${caseId ? `
-        <filter>
-            <condition attribute="msdyn_ocliveworkitemid" operator="eq" value="${caseId}" />
-        </filter>` : ''}
+        <filter type="and">
+            <condition attribute="regardingobjectid" operator="in">
+                ${filterValues}
+            </condition>
+        </filter>
         <order attribute="createdon" descending="true" />
         <link-entity name="msdyn_transcript" from="msdyn_liveworkitemidid" to="activityid">
         <link-entity name="annotation" from="objectid" to="msdyn_transcriptid" alias="annotation">
@@ -66,14 +79,14 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
     const query = `?fetchXml=${fetchXml}`;
     const response = await context.webAPI.retrieveMultipleRecords("msdyn_ocliveworkitem", query);
     if (response.entities.length > 0) {
-        // console.log("WhatsApp chats retrieved:", response.entities);
+
         response.entities.forEach(entity => {
             if (entity["annotation.documentbody"]) {
                 entity["annotation.documentbody"] = extractDocumentBodyContent(entity["annotation.documentbody"]);
             }
         });
-        //console.log("WhatsApp chats retrieved:", response.entities);
-        return response.entities;
+
+        return response.entities.sort((a, b) => new Date(a["msdyn_createdon"]).getTime() - new Date(b["msdyn_createdon"]).getTime());
     } else {
         return [];
     }
@@ -86,10 +99,8 @@ export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
         }
         return entity;
     });
-    //console.log("WhatsApp chats (test) retrieved:");
-    //console.log(entities);
-    // console.table(entities);
-    return entities;
+
+    return entities.sort((a, b) => new Date(a["msdyn_createdon"]).getTime() - new Date(b["msdyn_createdon"]).getTime());
 }
 
 export function mapEntitiesToChatCardProps(entities: ComponentFramework.WebApi.Entity[]): IChatCardProps[] {

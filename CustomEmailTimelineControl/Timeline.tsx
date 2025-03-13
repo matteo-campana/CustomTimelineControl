@@ -27,8 +27,7 @@ const useStyles = makeStyles({
         flexDirection: "column",
         rowGap: "8px",
         flex: "1 1 auto",
-        overflow: "auto", // Ensure vertical overflow is handled
-        // height: "900px",
+        overflow: "auto",
         height: "100%",
         width: "100%",
         marginLeft: "4px",

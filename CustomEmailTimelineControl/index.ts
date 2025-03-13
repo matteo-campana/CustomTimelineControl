@@ -61,7 +61,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
                 .then(() => getAllEmails(this._context))
                 .then((emails: ComponentFramework.WebApi.Entity[]) => {
                     this._emailMessageCollection = emails;
-                    return getWhatsAppChats(this._context, null);
+                    return getWhatsAppChats(this._context);
                 })
                 .then((chats: ComponentFramework.WebApi.Entity[]) => {
                     this._whatsAppChatCollection = chats;
@@ -85,7 +85,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-        console.log("updateView called with context:", context.mode.allocatedHeight, context.mode.allocatedWidth);
+        // console.log("updateView called with context:", context.mode.allocatedHeight, context.mode.allocatedWidth);
 
         return React.createElement(FluentProvider, { theme: webLightTheme },
             React.createElement(

@@ -28,3 +28,50 @@ export async function getCurrentEntityData(context: ComponentFramework.Context<I
         }
     );
 }
+
+export async function getCaseIds(context: ComponentFramework.Context<IInputs>): Promise<string[]> {
+    const collectCurrent = context.parameters.CollectCurrentRecordEmails.raw;
+    const collectParent = context.parameters.CollectParentEmails.raw;
+    const collectAncestors = context.parameters.CollectAncestorEmails.raw;
+
+    let ancestors = await getCurrentEntityData(context).then(async (entity) => {
+        if (entity) {
+            const ancestorIds = [];
+            if (collectCurrent) {
+                ancestorIds.push(entity.incidentid);
+            }
+            if (collectParent && entity._parentcaseid_value) {
+                ancestorIds.push(entity._parentcaseid_value);
+            }
+            if (collectAncestors) {
+                // Add logic to fetch all ancestor IDs
+                if (entity._parentcaseid_value) {
+                    ancestorIds.push(entity._parentcaseid_value);
+
+                    let currentParentId = entity._parentcaseid_value;
+
+                    while (currentParentId) {
+                        const parentEntity = await getIncidentEntityData(context, currentParentId);
+                        if (parentEntity && parentEntity._parentcaseid_value) {
+                            currentParentId = parentEntity._parentcaseid_value;
+                            ancestorIds.push(currentParentId);
+                        } else {
+                            currentParentId = null;
+                        }
+                    }
+                }
+            }
+            return ancestorIds;
+        } else {
+            return [];
+        }
+    });
+
+    ancestors = Array.from(new Set(ancestors));
+
+    if (ancestors.length === 0) {
+        return [];
+    }
+
+    return ancestors;
+}
