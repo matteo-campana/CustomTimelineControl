@@ -71,9 +71,11 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
         >
             {props.loading ? (
                 <Spinner appearance="primary" label={props.context.resources.getString("Loading")} />
-            ) : (emails.length === 0) ? (
+            ) : (emails.length === 0 && whatsAppChats.length === 0) ? (
                 <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
-                    {props.context.resources.getString("NoEmails")}
+                    {props.context.parameters.CollectEmails.raw === true && props.context.parameters.CollectWhatsAppChats.raw === false ? props.context.resources.getString("NoEmails") : <></>}
+                    {props.context.parameters.CollectEmails.raw === false && props.context.parameters.CollectWhatsAppChats.raw === true ? props.context.resources.getString("NoWhatsAppChats") : <></>}
+                    {props.context.parameters.CollectEmails.raw === true && props.context.parameters.CollectWhatsAppChats.raw === true ? props.context.resources.getString("NoEmailsOrWhatsAppChats") : <></>}
                 </Label>
             ) : (
                 <>

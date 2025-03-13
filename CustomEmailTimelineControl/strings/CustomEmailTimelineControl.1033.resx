@@ -192,4 +192,10 @@
   <data name="ChatShowTranscript" xml:space="preserve">
     <value>Show Transcript</value>
   </data>
+  <data name="NoWhatsAppChats" xml:space="preserve">
+    <value>No WhatsApp Chats</value>
+  </data>
+  <data name="NoEmailsOrWhatsAppChats" xml:space="preserve">
+    <value>No Emails or WhatsApp Chats</value>
+  </data>
 </root>

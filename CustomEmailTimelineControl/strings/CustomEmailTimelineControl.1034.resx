@@ -111,4 +111,10 @@
     <value>Mostrar Transcripción</value>
     <comment>Show transcript</comment>
   </data>
+  <data name="NoWhatsAppChats" xml:space="preserve">
+    <value>No hay chats de WhatsApp</value>
+  </data>
+  <data name="NoEmailsOrWhatsAppChats" xml:space="preserve">
+    <value>No hay correos electrónicos ni chats de WhatsApp</value>
+  </data>
 </root>

@@ -220,4 +220,10 @@
     <value>Afficher Transcription</value>
     <comment>Show transcript</comment>
   </data>
+  <data name="NoWhatsAppChats" xml:space="preserve">
+    <value>Pas de chats WhatsApp</value>
+  </data>
+  <data name="NoEmailsOrWhatsAppChats" xml:space="preserve">
+    <value>Pas d'emails ou de chats WhatsApp</value>
+  </data>
 </root>
