@@ -39,27 +39,37 @@ const useStyles = makeStyles({
 const Timeline: React.FC<ITimelineProps> = (props) => {
     const [emails, setEmails] = React.useState<IEmailCardProps[]>([]);
     const [whatsAppChats, setWhatsAppChats] = React.useState<IChatCardProps[]>([]);
+    const [mergedItems, setMergedItems] = React.useState<any[]>([]);
     const styles = useStyles();
 
     React.useEffect(() => {
         if (props.loading) {
             setEmails([]);
             setWhatsAppChats([]);
+            setMergedItems([]);
         } else {
             if (props.context.parameters.DebugMode.raw === true) {
-                const transformedEmails = generateEmailsFromJson();
-                const transformedWhatsAppChats = mapEntitiesToChatCardProps(getWhatsAppChatsTest());
+                let transformedEmails = generateEmailsFromJson();
+                let transformedWhatsAppChats = mapEntitiesToChatCardProps(getWhatsAppChatsTest());
+
+                transformedEmails = transformedEmails.map(email => ({ ...email, recordType: 'email' }));
+                transformedWhatsAppChats = transformedWhatsAppChats.map(chat => ({ ...chat, recordType: 'whatsapp' }));
 
                 setEmails(transformedEmails);
                 setWhatsAppChats(transformedWhatsAppChats);
+                setMergedItems([...transformedEmails, ...transformedWhatsAppChats].sort((a, b) => new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()));
 
                 props.context.factory.requestRender();
             } else {
-                const transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
-                const transformedWhatsAppChats = mapEntitiesToChatCardProps(props.whatsAppChatCollection);
+                let transformedEmails = transformRawEmailMessages(props.emailMessageCollection);
+                let transformedWhatsAppChats = mapEntitiesToChatCardProps(props.whatsAppChatCollection);
+
+                transformedEmails = transformedEmails.map(email => ({ ...email, recordType: 'email' }));
+                transformedWhatsAppChats = transformedWhatsAppChats.map(chat => ({ ...chat, recordType: 'whatsapp' }));
 
                 setEmails(transformedEmails);
                 setWhatsAppChats(transformedWhatsAppChats);
+                setMergedItems([...transformedEmails, ...transformedWhatsAppChats].sort((a, b) => new Date(b.createdOn).getTime() - new Date(a.createdOn).getTime()));
                 props.context.factory.requestRender();
             }
         }
@@ -71,7 +81,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
         >
             {props.loading ? (
                 <Spinner appearance="primary" label={props.context.resources.getString("Loading")} />
-            ) : (emails.length === 0 && whatsAppChats.length === 0) ? (
+            ) : (mergedItems.length === 0) ? (
                 <Label size="medium" style={{ textAlign: "center", padding: "16px" }}>
                     {props.context.parameters.CollectEmails.raw === true && props.context.parameters.CollectWhatsAppChats.raw === false ? props.context.resources.getString("NoEmails") : <></>}
                     {props.context.parameters.CollectEmails.raw === false && props.context.parameters.CollectWhatsAppChats.raw === true ? props.context.resources.getString("NoWhatsAppChats") : <></>}
@@ -79,11 +89,8 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
                 </Label>
             ) : (
                 <>
-                    {whatsAppChats.map((chat, index) => (
-                        <ChatCard key={index} {...chat} context={props.context} />
-                    ))}
-                    {emails.map((email, index) => (
-                        <EmailCard key={index} {...email} context={props.context} />
+                    {mergedItems.map((item, index) => (
+                        item.recordType === 'whatsapp' ? <ChatCard key={index} {...item} context={props.context} /> : <EmailCard key={index} {...item} context={props.context} />
                     ))}
                 </>
             )}
