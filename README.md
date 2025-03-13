@@ -19,22 +19,31 @@ Custom Email Timeline Control is a PowerApps Component Framework (PCF) control t
 To install the Custom Email Timeline Control, follow these steps:
 
 1. Clone the repository:
+
     ```powershell
     git clone https://github.com/matteo-campana/CustomEmailTimelineControl.git
     ```
+
 2. Navigate to the project directory:
+
     ```powershell
     cd CustomEmailTimelineControl
     ```
+
 3. Install dependencies:
+
     ```powershell
     npm install
     ```
+
 4. Build the project:
+
     ```powershell
     npm run build -- --buildMode production
     ```
+
 5. Start the project in watch mode (optional):
+
     ```powershell
     npm run start:watch
     ```
@@ -44,29 +53,39 @@ To install the Custom Email Timeline Control, follow these steps:
 To create and import a solution file:
 
 1. Create a new folder inside the sample component folder and name it as `Solutions` (or any name of your choice):
+
     ```powershell
     mkdir Solutions
     cd Solutions
     ```
+
 2. Create a new solutions project:
+
     ```powershell
     pac solution init --publisher-name developer --publisher-prefix dev
     ```
+
     > Note: The `publisher-name` and `publisher-prefix` values must be unique to your environment.
 
 3. Add a reference to the sample component:
+
     ```powershell
     pac solution add-reference --path c:\downloads\mysamplecomponent
     ```
+
 4. Generate a zip file from the solution project:
+
     ```powershell
     msbuild /t:restore
     msbuild
     ```
+
     Or if you have installed the .NET SDK, version >= 6:
+
     ```powershell
     dotnet build
     ```
+
     > Tip: If `msbuild 15.9.*` is not in the path, open Developer Command Prompt for VS 2017 to run the `msbuild` commands.
 
 5. The generated solution files are located inside the `\bin\debug\` folder after the build is successful.
@@ -76,14 +95,19 @@ To create and import a solution file:
 ### Connecting to your environment
 
 1. Create your authentication profile:
+
     ```powershell
     pac auth create --url https://xyz.crm.dynamics.com
     ```
+
 2. View all existing profiles:
+
     ```powershell
     pac auth list
     ```
+
 3. Switch between profiles:
+
     ```powershell
     pac auth select --index <index of the active profile>
     ```
@@ -93,9 +117,11 @@ To create and import a solution file:
 1. Ensure that you have a valid authentication profile created.
 2. Navigate to the directory where the sample component file is located.
 3. Push the code components to the Dataverse instance:
+
     ```powershell
     pac pcf push --publisher-prefix <your publisher prefix>
     ```
+
     > Note: The publisher prefix that you use with the push command should match the publisher prefix of your solution in which the components will be included.
 
 ## Input Parameters
