@@ -25,9 +25,11 @@
       -->
     </data-set>
     <property name="DebugMode" display-name-key="DebugMode_Display_Key" description-key="DebugMode_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
-    <property name="CollectCurrentRecordEmails" display-name-key="CollectCurrentRecordEmails_Display_Key" description-key="CollectCurrentRecordEmails_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
-    <property name="CollectParentEmails" display-name-key="CollectParentEmails_Display_Key" description-key="CollectParentEmails_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
-    <property name="CollectAncestorEmails" display-name-key="CollectAncestorEmails_Display_Key" description-key="CollectAncestorEmails_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
+    <property name="CollectCurrentRecord" display-name-key="CollectCurrentRecord_Display_Key" description-key="CollectCurrentRecord_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
+    <property name="CollectParent" display-name-key="CollectParent_Display_Key" description-key="CollectParent_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
+    <property name="CollectAncestor" display-name-key="CollectAncestor_Display_Key" description-key="CollectAncestor_Desc_Key" of-type="TwoOptions" usage="input" required="true" />
+    <property name="CollectEmails" display-name-key="CollectEmails" description-key="CollectEmails" of-type="TwoOptions" usage="input" required="true" />
+    <property name="CollectWhatsAppChats" display-name-key="CollectWhatsAppChats" description-key="CollectWhatsAppChats" of-type="TwoOptions" usage="input" required="true" />
     <!-- <property name="emailMessageCollection" display-name-key="emailMessageCollection_Display_Key" description-key="emailMessageCollection_Display_Key" of-type="SingleLine.Text" usage="bound" required="false" />
     <property name="loading" display-name-key="loading_Display_Key" description-key="eloading_Display_Key" of-type="TwoOptions" usage="bound" required="false" /> -->
     <resources>

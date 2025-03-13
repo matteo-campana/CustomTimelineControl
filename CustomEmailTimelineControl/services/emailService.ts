@@ -7,6 +7,10 @@ import { getCaseIds } from "./utils";
 
 export async function getAllEmails(context: ComponentFramework.Context<IInputs>): Promise<ComponentFramework.WebApi.Entity[]> {
 
+    if(context.parameters.CollectEmails.raw === false) {
+        return [];
+    }
+
     const ancestors = await getCaseIds(context);
 
     if (ancestors.length === 0) {
@@ -131,6 +135,7 @@ export async function getAttachmentBody(emailAttachment: IEmailCardAttachment): 
 }
 
 export const generateEmailsFromJson = (): IEmailCardProps[] => {
+
     const emails = sampleEmails.map((email: any) => {
         const fromParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 1);
         const toParty = email.email_activity_parties.find((party: any) => party.participationtypemask === 2);

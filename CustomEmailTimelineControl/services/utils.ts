@@ -30,9 +30,9 @@ export async function getCurrentEntityData(context: ComponentFramework.Context<I
 }
 
 export async function getCaseIds(context: ComponentFramework.Context<IInputs>): Promise<string[]> {
-    const collectCurrent = context.parameters.CollectCurrentRecordEmails.raw;
-    const collectParent = context.parameters.CollectParentEmails.raw;
-    const collectAncestors = context.parameters.CollectAncestorEmails.raw;
+    const collectCurrent = context.parameters.CollectCurrentRecord.raw;
+    const collectParent = context.parameters.CollectParent.raw;
+    const collectAncestors = context.parameters.CollectAncestor.raw;
 
     let ancestors = await getCurrentEntityData(context).then(async (entity) => {
         if (entity) {

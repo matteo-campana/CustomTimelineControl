@@ -26,6 +26,10 @@ function extractDocumentBodyContent(base64String: string): any {
 
 export async function getWhatsAppChats(context: ComponentFramework.Context<IInputs>): Promise<ComponentFramework.WebApi.Entity[]> {
 
+    if (context.parameters.CollectWhatsAppChats.raw === false) {
+        return [];
+    }
+
     const ancestors = await getCaseIds(context);
 
     if (ancestors.length === 0) {
