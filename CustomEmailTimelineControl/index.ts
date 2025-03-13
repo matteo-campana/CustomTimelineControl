@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 // import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
-import { Timeline } from './Timeline';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import { getAllEmails } from './services/emailService';
-import { getWhatsAppChats, getWhatsAppChatsTest } from './services/whatsappChatService';
 import { getCurrentEntityData } from "./services/utils";
+import { getWhatsAppChats } from './services/whatsappChatService';
+import { Timeline } from './Timeline';
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class CustomEmailTimelineControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -50,7 +50,6 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         if (context.parameters.DebugMode.raw == true) {
             setInterval(() => {
                 this._emailLoadInProgress = false;
-                this._whatsAppChatCollection = getWhatsAppChatsTest();
                 this.notifyOutputChanged(); // Notify the framework that the data has changed
                 this._context.factory.requestRender();
             }, 3000);

@@ -15,7 +15,13 @@ export async function getIncidentEntityData(context: ComponentFramework.Context<
 
 export async function getCurrentEntityData(context: ComponentFramework.Context<IInputs>): Promise<ComponentFramework.WebApi.Entity | null> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let entityId = (context.mode as any).contextInfo.entityId;
+
+    if (context.parameters.DebugMode.raw === true) {
+        return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let entityId = (context.mode as any)?.contextInfo?.entityId;
     entityId = entityId.replace("{", "").replace("}", "");
 
     return context.webAPI.retrieveRecord("incident", entityId, "?$select=incidentid,_parentcaseid_value").then(
@@ -30,6 +36,11 @@ export async function getCurrentEntityData(context: ComponentFramework.Context<I
 }
 
 export async function getCaseIds(context: ComponentFramework.Context<IInputs>): Promise<string[]> {
+
+    if (context.parameters.DebugMode.raw === true) {
+        return [];
+    }
+
     const collectCurrent = context.parameters.CollectCurrentRecord.raw;
     const collectParent = context.parameters.CollectParent.raw;
     const collectAncestors = context.parameters.CollectAncestor.raw;

@@ -9,7 +9,7 @@ import { ChatCard, IChatCardProps } from "./chat/ChatCard";
 import { EmailCard, IEmailCardProps } from "./EmailCard";
 import { IInputs } from "./generated/ManifestTypes";
 import { generateEmailsFromJson, transformRawEmailMessages } from './services/emailService';
-import { mapEntitiesToChatCardProps } from './services/whatsappChatService';
+import { getWhatsAppChatsTest, mapEntitiesToChatCardProps } from './services/whatsappChatService';
 
 // Define the ITimelineProps interface
 interface ITimelineProps {
@@ -48,7 +48,7 @@ const Timeline: React.FC<ITimelineProps> = (props) => {
         } else {
             if (props.context.parameters.DebugMode.raw === true) {
                 const transformedEmails = generateEmailsFromJson();
-                const transformedWhatsAppChats = mapEntitiesToChatCardProps(props.whatsAppChatCollection);
+                const transformedWhatsAppChats = mapEntitiesToChatCardProps(getWhatsAppChatsTest());
 
                 setEmails(transformedEmails);
                 setWhatsAppChats(transformedWhatsAppChats);
