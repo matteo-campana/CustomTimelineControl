@@ -57,17 +57,17 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
 
         if (context.parameters.DebugMode.raw == false) {
             getCurrentEntityData(this._context)
-                .then(() => getAllEmails(this._context))
-                .then((emails: ComponentFramework.WebApi.Entity[]) => {
+                .then(() => Promise.all([
+                    getAllEmails(this._context),
+                    getWhatsAppChats(this._context)
+                ]))
+                .then(([emails, chats]) => {
                     this._emailMessageCollection = emails;
-                    return getWhatsAppChats(this._context);
-                })
-                .then((chats: ComponentFramework.WebApi.Entity[]) => {
                     this._whatsAppChatCollection = chats;
                     this._emailLoadInProgress = false;
                     this.notifyOutputChanged(); // Notify the framework that the data has changed
                     this._context.factory.requestRender();
-                    return;
+                    return [emails, chats];
                 })
                 .catch((error: any) => {
                     console.error("Error retrieving emails or chats:", error);
@@ -105,6 +105,7 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
     public getOutputs(): IOutputs {
         return {
             emailMessageCollection: JSON.stringify(this._emailMessageCollection),
+            whatsAppChatCollection: JSON.stringify(this._whatsAppChatCollection),
             loading: this._emailLoadInProgress
         };
     }
