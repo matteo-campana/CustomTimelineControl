@@ -40,6 +40,7 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
         <attribute name="msdyn_transcriptcontrol" />
         <attribute name="sendermailboxid" />
         <attribute name="utcconversiontimezonecode" />
+        <attribute name="regardingobjectid" />
         ${caseId ? `
         <filter>
             <condition attribute="msdyn_ocliveworkitemid" operator="eq" value="${caseId}" />

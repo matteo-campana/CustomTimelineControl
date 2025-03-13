@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 // import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
 import { Timeline } from './Timeline';
 import { FluentProvider, webLightTheme } from '@fluentui/react-components';
 import * as React from "react";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import { getCurrentEntityData, getIncidentEntityData, getAllEmails } from './services/emailService';
+import { getAllEmails } from './services/emailService';
 import { getWhatsAppChats, getWhatsAppChatsTest } from './services/whatsappChatService';
+import { getCurrentEntityData } from "./services/utils";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class CustomEmailTimelineControl implements ComponentFramework.ReactControl<IInputs, IOutputs> {
@@ -57,18 +59,18 @@ export class CustomEmailTimelineControl implements ComponentFramework.ReactContr
         if (context.parameters.DebugMode.raw == false) {
             getCurrentEntityData(this._context)
                 .then(() => getAllEmails(this._context))
-                .then(emails => {
+                .then((emails: ComponentFramework.WebApi.Entity[]) => {
                     this._emailMessageCollection = emails;
                     return getWhatsAppChats(this._context, null);
                 })
-                .then(chats => {
+                .then((chats: ComponentFramework.WebApi.Entity[]) => {
                     this._whatsAppChatCollection = chats;
                     this._emailLoadInProgress = false;
                     this.notifyOutputChanged(); // Notify the framework that the data has changed
                     this._context.factory.requestRender();
                     return;
                 })
-                .catch(error => {
+                .catch((error: any) => {
                     console.error("Error retrieving emails or chats:", error);
                 });
         }

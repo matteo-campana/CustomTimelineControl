@@ -111,6 +111,31 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
                 description={
                     <Text></Text>
                 }
+                action={
+                    <Menu>
+                        <MenuTrigger disableButtonEnhancement>
+                            <Tooltip content="More options" relationship="label">
+                                <MenuButton icon={<MoreHorizontal20Regular />} size="large" />
+                            </Tooltip>
+                        </MenuTrigger>
+                        <MenuPopover>
+                            <MenuList>
+                                <MenuItem onClick={() => {
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const environmentUrl = window.location.href.split('/main.aspx?')[0];
+                                    const appId = urlParams.get('appid');
+                                    window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=msdyn_ocliveworkitem&id=${props.activityid}`, '_blank');
+                                }}>Open Chat {`>`} </MenuItem>
+                                <MenuItem onClick={() => {
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    const environmentUrl = window.location.href.split('/main.aspx?')[0];
+                                    const appId = urlParams.get('appid');
+                                    window.open(`${environmentUrl}/main.aspx?appid=${appId}&pagetype=entityrecord&etn=incident&id=${props.activityid}`, '_blank');
+                                }}>Open Case {`>`} </MenuItem>
+                            </MenuList>
+                        </MenuPopover>
+                    </Menu>
+                }
             />
 
 
