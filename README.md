@@ -1,4 +1,4 @@
-# Custom Email Timeline Control 📧
+# Custom Timeline Control 📧
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
@@ -6,13 +6,13 @@
 
 ## Overview
 
-Custom Email Timeline Control is a PowerApps Component Framework (PCF) control that provides a customized timeline view for emails within a model-driven app.
+Custom Timeline Control is a PowerApps Component Framework (PCF) control that provides a customized timeline view for emails and WhatsApp chats within a model-driven app.
 
 ## Features
 
-- 📬 Customizable email timeline view
-- 📝 Display emails related to the current record
-- 📊 Collect emails related to parent and ancestor records
+- 📬 Customizable activities timeline view
+- 📧 Collect emails and WhatsApp chats
+- 📚 Multi-language support
 - 📈 Support for debug mode
 - 📱 Responsive design for any devices
 - 🎨 Fluent UI components for a modern look
