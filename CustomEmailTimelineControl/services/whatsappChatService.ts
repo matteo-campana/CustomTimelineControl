@@ -96,10 +96,11 @@ export async function getWhatsAppChats(context: ComponentFramework.Context<IInpu
     }
 }
 
-export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getWhatsAppChatsTest(): ComponentFramework.WebApi.Entity[] | any{
     const entities = sampleData.map(entity => {
-        if (entity["annotation.documentbody"]) {
-            entity["annotation.documentbody"] = extractDocumentBodyContent(entity["annotation.documentbody"]);
+        if (entity["annotation.documentbody"] as unknown as string) {
+            entity["annotation.documentbody"] = extractDocumentBodyContent(entity["annotation.documentbody"] as unknown as string);
         }
         return entity;
     });
