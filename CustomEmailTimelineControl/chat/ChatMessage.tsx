@@ -72,8 +72,8 @@ export const ChatMessage: React.FC<IChatMessageProps> = (props) => {
                         </section>
                         {props.tags?.startsWith('public') || props.tags?.startsWith('ChannelId-whatsapp') ?
                             <Card className={classes.messageCard} style={{ backgroundColor: props.from?.user ? '#96c6fa' : '#fff' }}>
-                                <Text>{props.content}</Text>
-                            </Card> : <Text>{props.content}</Text>}
+                                <Text>{decodeURIComponent(escape(props.content))}</Text>
+                            </Card> : <Text>{decodeURIComponent(escape(props.content))}</Text>}
                     </div>
                 </section>
             ) : <></>}
