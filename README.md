@@ -8,6 +8,12 @@
 
 Custom Timeline Control is a PowerApps Component Framework (PCF) control that provides a customized timeline view for emails and WhatsApp chats within a model-driven app.
 
+![Custom Timeline Control](imgs/sample.png)
+
+You can try out the Custom Timeline Control on StackBlitz:
+
+[![Edit on StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/edit/github-whzswgsb?file=README.md)
+
 ## Features
 
 - 📬 Customizable activities timeline view
@@ -19,6 +25,7 @@ Custom Timeline Control is a PowerApps Component Framework (PCF) control that pr
 - 🛠️ Easy configuration settings
 - 📅 Easy integration with model-driven apps
 - 🔧 Configurable settings for display
+
 
 ## Installation
 

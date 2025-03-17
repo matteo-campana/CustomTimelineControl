@@ -21,6 +21,3 @@
 
 # macos
 .DS_Store
-CustomEmailTimelineControl/services/test.json
-CustomEmailTimelineControl/sample-whatsapp-chat.json
-CustomEmailTimelineControl/sample-processed-whatsapp-chat.json
