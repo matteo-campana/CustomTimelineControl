@@ -71,7 +71,7 @@ export const ChatMessage: React.FC<IChatMessageProps> = (props) => {
                             <Text><ClockRegular /> {new Date(props.createdDateTime).toLocaleString()}</Text>
                         </section>
                         {props.tags?.startsWith('public') || props.tags?.startsWith('ChannelId-whatsapp') ?
-                            <Card className={classes.messageCard}>
+                            <Card className={classes.messageCard} style={{ backgroundColor: props.from?.user ? '#96c6fa' : '#fff' }}>
                                 <Text>{props.content}</Text>
                             </Card> : <Text>{props.content}</Text>}
                     </div>

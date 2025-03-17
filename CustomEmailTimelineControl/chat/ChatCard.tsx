@@ -142,7 +142,7 @@ export const ChatCard: React.FC<IChatCardProps> = (props: IChatCardProps) => {
                 {isExpanded && (
                     <>
                         <Text weight="semibold">{t("ChatTranscript")}</Text>
-                        <Card>
+                        <Card style={{ backgroundColor: "#f5f5f5" }}>
                             {props.chatMessages.map((message, index) => (
                                 <ChatMessage key={index} {...message} />
                             ))}
