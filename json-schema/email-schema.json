@@ -9,15 +9,6 @@
             "description": {
                 "type": "string"
             },
-            "createdon@OData.Community.Display.V1.FormattedValue": {
-                "type": "string"
-            },
-            "createdon": {
-                "type": "string"
-            },
-            "activityid": {
-                "type": "string"
-            },
             "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue": {
                 "type": "string"
             },
@@ -30,22 +21,28 @@
             "_regardingobjectid_value": {
                 "type": "string"
             },
-            "statuscode@OData.Community.Display.V1.FormattedValue": {
-                "type": "string"
-            },
-            "statuscode": {
-                "type": "integer"
-            },
-            "subject": {
-                "type": "string"
-            },
-            "safedescription": {
+            "activityid": {
                 "type": "string"
             },
             "modifiedon@OData.Community.Display.V1.FormattedValue": {
                 "type": "string"
             },
             "modifiedon": {
+                "type": "string"
+            },
+            "createdon@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "createdon": {
+                "type": "string"
+            },
+            "statuscode@OData.Community.Display.V1.FormattedValue": {
+                "type": "string"
+            },
+            "statuscode": {
+                "type": "integer"
+            },
+            "safedescription": {
                 "type": "string"
             },
             "email_activity_parties": {
@@ -56,22 +53,22 @@
                         "@@odata.etag": {
                             "type": "string"
                         },
-                        "donotphone@OData.Community.Display.V1.FormattedValue": {
-                            "type": "string"
-                        },
-                        "donotphone": {
-                            "type": "boolean"
-                        },
-                        "instancetypecode@OData.Community.Display.V1.FormattedValue": {
-                            "type": "string"
-                        },
-                        "instancetypecode": {
-                            "type": "integer"
-                        },
                         "donotfax@OData.Community.Display.V1.FormattedValue": {
                             "type": "string"
                         },
                         "donotfax": {
+                            "type": "boolean"
+                        },
+                        "addressusedemailcolumnnumber@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "addressusedemailcolumnnumber": {
+                            "type": "integer"
+                        },
+                        "donotpostalmail@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotpostalmail": {
                             "type": "boolean"
                         },
                         "ispartydeleted@OData.Community.Display.V1.FormattedValue": {
@@ -79,9 +76,6 @@
                         },
                         "ispartydeleted": {
                             "type": "boolean"
-                        },
-                        "activitypartyid": {
-                            "type": "string"
                         },
                         "_partyid_value@OData.Community.Display.V1.FormattedValue": {
                             "type": "string"
@@ -95,12 +89,6 @@
                         "_partyid_value": {
                             "type": "string"
                         },
-                        "donotemail@OData.Community.Display.V1.FormattedValue": {
-                            "type": "string"
-                        },
-                        "donotemail": {
-                            "type": "boolean"
-                        },
                         "_activityid_value@Microsoft.Dynamics.CRM.associatednavigationproperty": {
                             "type": "string"
                         },
@@ -110,16 +98,10 @@
                         "_activityid_value": {
                             "type": "string"
                         },
-                        "participationtypemask@OData.Community.Display.V1.FormattedValue": {
+                        "donotemail@OData.Community.Display.V1.FormattedValue": {
                             "type": "string"
                         },
-                        "participationtypemask": {
-                            "type": "integer"
-                        },
-                        "donotpostalmail@OData.Community.Display.V1.FormattedValue": {
-                            "type": "string"
-                        },
-                        "donotpostalmail": {
+                        "donotemail": {
                             "type": "boolean"
                         },
                         "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname": {
@@ -128,53 +110,68 @@
                         "_ownerid_value": {
                             "type": "string"
                         },
-                        "addressusedemailcolumnnumber@OData.Community.Display.V1.FormattedValue": {
+                        "instancetypecode@OData.Community.Display.V1.FormattedValue": {
                             "type": "string"
                         },
-                        "addressusedemailcolumnnumber": {
+                        "instancetypecode": {
+                            "type": "integer"
+                        },
+                        "activitypartyid": {
+                            "type": "string"
+                        },
+                        "participationtypemask@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "participationtypemask": {
                             "type": "integer"
                         },
                         "addressused": {
                             "type": "string"
+                        },
+                        "donotphone@OData.Community.Display.V1.FormattedValue": {
+                            "type": "string"
+                        },
+                        "donotphone": {
+                            "type": "boolean"
                         }
                     },
                     "required": [
                         "@@odata.etag",
-                        "instancetypecode@OData.Community.Display.V1.FormattedValue",
-                        "instancetypecode",
+                        "addressusedemailcolumnnumber@OData.Community.Display.V1.FormattedValue",
+                        "addressusedemailcolumnnumber",
                         "ispartydeleted@OData.Community.Display.V1.FormattedValue",
                         "ispartydeleted",
-                        "activitypartyid",
                         "_partyid_value@OData.Community.Display.V1.FormattedValue",
                         "_partyid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
                         "_partyid_value",
                         "_activityid_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
                         "_activityid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
                         "_activityid_value",
+                        "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
+                        "_ownerid_value",
+                        "instancetypecode@OData.Community.Display.V1.FormattedValue",
+                        "instancetypecode",
+                        "activitypartyid",
                         "participationtypemask@OData.Community.Display.V1.FormattedValue",
                         "participationtypemask",
-                        "_ownerid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
-                        "_ownerid_value"
+                        "addressused"
                     ]
                 }
+            },
+            "subject": {
+                "type": "string"
             }
         },
         "required": [
             "@@odata.etag",
-            "description",
-            "createdon@OData.Community.Display.V1.FormattedValue",
-            "createdon",
             "activityid",
-            "_regardingobjectid_value@OData.Community.Display.V1.FormattedValue",
-            "_regardingobjectid_value@Microsoft.Dynamics.CRM.associatednavigationproperty",
-            "_regardingobjectid_value@Microsoft.Dynamics.CRM.lookuplogicalname",
-            "_regardingobjectid_value",
-            "statuscode@OData.Community.Display.V1.FormattedValue",
-            "statuscode",
-            "subject",
-            "safedescription",
             "modifiedon@OData.Community.Display.V1.FormattedValue",
             "modifiedon",
+            "createdon@OData.Community.Display.V1.FormattedValue",
+            "createdon",
+            "statuscode@OData.Community.Display.V1.FormattedValue",
+            "statuscode",
+            "safedescription",
             "email_activity_parties"
         ]
     }
