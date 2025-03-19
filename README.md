@@ -26,7 +26,6 @@ You can try out the Custom Timeline Control on StackBlitz:
 - 📅 Easy integration with model-driven apps
 - 🔧 Configurable settings for display
 
-
 ## Installation
 
 To install the Custom Email Timeline Control, follow these steps:
